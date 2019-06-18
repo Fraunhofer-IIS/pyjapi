@@ -23,7 +23,7 @@ class JAPIClient(QObject):
 
     def list_push_services(self):
         """List available JAPI push services."""
-        return self.query("japi_pushsrv_list")
+        return self.query("japi_pushsrv_list").get("services", [])
 
     def query(self, cmd: str, timeout=10, **kwargs):
         """Query JAPI server and return response."""
@@ -81,7 +81,9 @@ class JAPIClient(QObject):
     def _subscribe(self, service="counter"):
         """Subscribe to JAPI push service."""
         log.info("Subscribing to %s push service.", service)
-        return self.query("japi_pushsrv_subscribe", service=f"push_{service}")
+        return self.query(
+            "japi_pushsrv_subscribe", service=service if service.startswith("push_") else f"push_{service}"
+        )
 
     def _unsubscribe(self, service="counter"):
         """Unsubscribe from JAPI push service."""
