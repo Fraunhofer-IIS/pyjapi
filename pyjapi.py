@@ -74,9 +74,14 @@ class JAPIClient(QObject):
             f"Listening for {str(n_pkg)+' ' if n_pkg > 0 else ''}{service} package{'s' if n_pkg != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
-            yield (json.dumps(json.loads(line), indent=4))
+            yield json.loads(line)
             if n_pkg and n >= n_pkg:
                 break
+
+    def get(self, service):
+        """Return first message for *service*."""
+        for val in self.listen(service, n_pkg=1):
+            return val
 
     def _subscribe(self, service="counter"):
         """Subscribe to JAPI push service."""
