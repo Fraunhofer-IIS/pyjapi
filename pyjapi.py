@@ -17,16 +17,25 @@ class JAPIClient(QObject):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(parent)
         self.conn_str = kwargs.get("conn_str")
-        self.sock = socket.create_connection(self.conn_str)
-        self.sock.settimeout(kwargs.get("timeout", 5))
-        self.sockfile = self.sock.makefile()
+        try:
+            self.sock = socket.create_connection(self.conn_str)
+            self.sock.settimeout(kwargs.get("timeout", 5))
+            self.sockfile = self.sock.makefile()
+        except ConnectionError as e:
+            self.sock = None
+            log.error(str(e))
 
     def list_push_services(self):
         """List available JAPI push services."""
-        return self.query("japi_pushsrv_list").get("services", [])
+        if self.sock is not None:
+            return self.query("japi_pushsrv_list").get("services", [])
+        return []
 
     def query(self, cmd: str, timeout=10, **kwargs):
         """Query JAPI server and return response."""
+        if self.sock is None:
+            log.error("")
+            return {}
         log.debug("Use socket timeout %s", timeout)
 
         cmd_request = {"japi_request": cmd}
@@ -69,6 +78,9 @@ class JAPIClient(QObject):
 
     def listen(self, service, n_pkg=0):
         """Listen for JAPI messages."""
+        if self.sock is None:
+            log.warning("Not connected!")
+            return {}
         self._subscribe(service)
         log.info(
             f"Listening for {str(n_pkg)+' ' if n_pkg > 0 else ''}{service} package{'s' if n_pkg != 1 else ''}..."
