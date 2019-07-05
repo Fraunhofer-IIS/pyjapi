@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""QObject-based JAPI Client."""
+"""JAPI Client in Python."""
 import json
 import logging as log
 import socket
@@ -7,19 +7,14 @@ import sys
 
 import click
 
-from PyQt5.QtCore import pyqtSignal, QObject
 
+class JAPIClient():
 
-class JAPIClient(QObject):
-
-    response_received = pyqtSignal(dict)
-
-    def __init__(self, parent=None, *args, **kwargs):
-        super().__init__(parent)
-        self.conn_str = kwargs.get("conn_str")
+    def __init__(self, conn_str=("localhost", 1234), timeout=5):
+        self.conn_str = conn_str
         try:
             self.sock = socket.create_connection(self.conn_str)
-            self.sock.settimeout(kwargs.get("timeout", 5))
+            self.sock.settimeout(timeout)
             self.sockfile = self.sock.makefile()
         except ConnectionError as e:
             self.sock = None
@@ -56,22 +51,17 @@ class JAPIClient(QObject):
         ):
             log.warning("%s:%d is not available", self.conn_str[0], self.conn_str[1])
             return False
-        except ConnectionRefusedError:
-            log.warning("Somebody else is using the device!")
+        except Exception as e:
+            log.warning(str(e))
             return False
-        except socket.timeout:
-            log.warning("Device did not respond in time!")
-            return False
-        except UnicodeDecodeError:
-            log.warning("Error while decoding response")
 
         try:
             response = json.loads(resp)
         except json.JSONDecodeError as e:
             log.error("Cannot parse response: %s (%s)", resp, str(e))
             return False
-        except UnboundLocalError:
-            log.error("UnboundLocalError")
+        except Exception as e:
+            log.error(str(e))
             return False
 
         return response

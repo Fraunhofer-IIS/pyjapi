@@ -19,6 +19,6 @@ setuptools.setup(
         [console_scripts]
         japi=pyjapi:cli
     ''',
-    install_requires=['PyQt5', 'click>=7.0'],
+    install_requires=['click>=7.0'],
     python_requires='>=3.6',
 )
