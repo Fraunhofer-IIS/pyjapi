@@ -3,11 +3,31 @@
 ## Getting Started
 
 ```sh
-(env) $ pip install git+https://git01.iis.fhg.de/mkj/pyjapi
+pip install git+https://git01.iis.fhg.de/mkj/pyjapi
+```
+
+## Usage
+
+`japi [--host HOSTNAME] [--port N] [-v] (listen|request)`
+
+## Examples
+
+### Issue individual JAPI commands
+
+`japi request <JAPI_COMMAND>`
+
+```sh
 (env) $ japi request get_temperature
 temperature=27.0
 unit=celsius
-(env) $ japi listen temperature
+```
+
+### Listen to JAPI push services
+
+`japi listen <PUSH_SERVICE_NAME> <N_PACKAGES>`
+
+```sh
+(env) $ japi listen temperature 3
 {
     "temperature": 39.09297426825681,
     "japi_pushsrv": "push_temperature"
