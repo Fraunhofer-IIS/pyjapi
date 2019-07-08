@@ -140,7 +140,7 @@ def cli(ctx, host, port, verbose):
 def listen(ctx, service, duration):
     # ctx.obj.listen(service, duration)
     for response in ctx.obj.listen(service, duration):
-        click.echo(response)
+        click.echo(json.dumps(response))
 
 
 @cli.command()
@@ -149,11 +149,13 @@ def listen(ctx, service, duration):
 @click.pass_context
 def request(ctx, cmd, raw):
     response = ctx.obj.query(cmd)
-    if not raw:
+    if raw:
+        click.echo(json.dumps(response))
+    else:
         if "japi_response" in response:
             response.pop("japi_response")
         response = "\n".join([f"{key}={val}" for key, val in response.items()])
-    click.echo(response)
+        click.echo(response)
 
 
 if __name__ == "__main__":
