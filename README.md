@@ -28,17 +28,8 @@ unit=celsius
 
 ```sh
 (env) $ japi listen temperature 3
-{
-    "temperature": 39.09297426825681,
-    "japi_pushsrv": "push_temperature"
-}
-{
-    "temperature": 38.632093666488736,
-    "japi_pushsrv": "push_temperature"
-}
-{
-    "temperature": 38.0849640381959,
-    "japi_pushsrv": "push_temperature"
-}
+{"temperature": 39.09297426825681}
+{"temperature": 38.632093666488736}
+{"temperature": 38.0849640381959}
 (env) $ _
 ```

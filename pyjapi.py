@@ -34,7 +34,8 @@ class JAPIClient():
         log.debug("Use socket timeout %s", timeout)
 
         cmd_request = {"japi_request": cmd}
-        cmd_request.update(kwargs)
+        if kwargs:
+            cmd_request['args'] = kwargs
         log.debug("-> %s", cmd_request)
 
         json_cmd = json.dumps(cmd_request) + "\n"
@@ -76,7 +77,7 @@ class JAPIClient():
             f"Listening for {str(n_pkg)+' ' if n_pkg > 0 else ''}{service} package{'s' if n_pkg != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
-            yield json.loads(line)
+            yield json.loads(line).get('data')
             if n_pkg and n >= n_pkg:
                 break
 
@@ -154,8 +155,8 @@ def request(ctx, cmd, raw):
     else:
         if "japi_response" in response:
             response.pop("japi_response")
-        response = "\n".join([f"{key}={val}" for key, val in response.items()])
-        click.echo(response)
+        response = "\n".join([f"{key}={val}" for key, val in response.get('data').items()])
+    click.echo(response)
 
 
 if __name__ == "__main__":
