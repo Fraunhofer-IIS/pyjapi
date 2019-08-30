@@ -7,7 +7,7 @@ import sys
 
 import click
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 
 
 class JAPIClient():
@@ -110,7 +110,7 @@ class JAPIClient():
 @click.option(
     "--host",
     envvar="JAPI_HOST",
-    default="127.0.1.0",
+    default="127.0.2.0",
     help="JAPI server hostname or ip",
     type=click.STRING,
 )
