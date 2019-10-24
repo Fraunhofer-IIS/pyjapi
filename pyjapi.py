@@ -7,8 +7,6 @@ import sys
 
 import click
 
-__version__ = '0.2.0'
-
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""

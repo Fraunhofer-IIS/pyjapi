@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 
 import setuptools
-from pyjapi import __version__
 
 setuptools.setup(
     name='pyjapi',
     description='JAPI client',
     long_description='',
-    version=__version__,
+    version='0.2.0',
     author='Jannis Mainczyk',
     author_email='jannis.mainczyk@iis.fraunhofer.de',
     maintainer='Jannis Mainczyk',
