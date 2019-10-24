@@ -167,7 +167,7 @@ def listen(ctx, service, n):
 @click.pass_context
 def list(ctx):
     """List available push services."""
-    click.echo(ctx.obj.list_push_services())
+    click.echo(json.dumps(ctx.obj.list_push_services()))
 
 
 @_cli.command()
@@ -180,8 +180,8 @@ def request(ctx, cmd, raw):
     CMD is the JAPI Command (e.g. get_temperature). So far, no additional values can be added to
     the request.
 
-    i.e. request like {"japi_request": "japi_pushsrv_subscribe", "service": "push_temperature"}
-    cannot be issued using this command yet.
+    i.e. request with additional arguments like {"japi_request": "japi_pushsrv_subscribe",
+    "service": "push_temperature"} cannot be issued using this command yet.
 
     """
     response = ctx.obj.query(cmd)
