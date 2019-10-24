@@ -34,12 +34,11 @@ class JAPIClient():
             return self.query('japi_pushsrv_list').get('services', [])
         return []
 
-    def query(self, cmd: str, timeout=10, **kwargs):
+    def query(self, cmd: str, **kwargs):
         """Query JAPI server and return response."""
         if self.sock is None:
             log.error('')
             return {}
-        log.debug('Use socket timeout %s', timeout)
 
         cmd_request = {'japi_request': cmd}
         if kwargs:
@@ -89,17 +88,10 @@ class JAPIClient():
             if n_pkg and n >= n_pkg:
                 break
 
-    def get(self, service):
-        """Return first message for *service*."""
-        for val in self.listen(service, n_pkg=1):
-            return val
-
     def _subscribe(self, service='counter'):
         """Subscribe to JAPI push service."""
         log.info('Subscribing to %s push service.', service)
-        return self.query(
-            'japi_pushsrv_subscribe', service=service if service.startswith('push_') else f'push_{service}'
-        )
+        return self.query('japi_pushsrv_subscribe', service=service)
 
     def _unsubscribe(self, service='counter'):
         """Unsubscribe from JAPI push service."""
