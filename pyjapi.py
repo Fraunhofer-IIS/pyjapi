@@ -143,19 +143,47 @@ def _cli(ctx, host, port, verbose):
 
 
 @_cli.command()
-@click.argument('service', default='counter')
-@click.argument('duration', default=0, type=click.INT)
+@click.argument('service', default='push_temperature')
+@click.argument('n', default=0, type=click.INT)
 @click.pass_context
-def _listen(ctx, service, duration):
-    for response in ctx.obj.listen(service, duration):
+def listen(ctx, service, n):
+    """Listen for values of push service.
+
+    If no SERVICE is given, SERVICE defaults to 'push_temperature' (available in libjapi-demo).
+    For a list of available SERVICEs, use
+
+        $ japi list
+
+    By default, values are continuously received until either server or client closes the
+    connection. Provide a positive integer for N to stop listening after N values have been
+    received.
+
+    """
+    for response in ctx.obj.listen(service, n):
         click.echo(json.dumps(response))
+
+
+@_cli.command()
+@click.pass_context
+def list(ctx):
+    """List available push services."""
+    click.echo(ctx.obj.list_push_services())
 
 
 @_cli.command()
 @click.argument('cmd')
 @click.option('-r', '--raw', is_flag=True, default=False, help='print raw response')
 @click.pass_context
-def _request(ctx, cmd, raw):
+def request(ctx, cmd, raw):
+    """Issue individual JAPI request.
+
+    CMD is the JAPI Command (e.g. get_temperature). So far, no additional values can be added to
+    the request.
+
+    i.e. request like {"japi_request": "japi_pushsrv_subscribe", "service": "push_temperature"}
+    cannot be issued using this command yet.
+
+    """
     response = ctx.obj.query(cmd)
     if raw:
         click.echo(json.dumps(response))
