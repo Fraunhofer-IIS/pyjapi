@@ -11,11 +11,19 @@ __version__ = '0.2.0'
 
 
 class JAPIClient():
+    """Connect and interact with arbitrary libJAPI-based backend."""
 
-    def __init__(self, conn_str=("localhost", 1234), timeout=5):
-        self.conn_str = conn_str
+    def __init__(self, address=('localhost', 1234), timeout=5):
+        """Create new JAPIClient object.
+
+        Args:
+            address (tuple, optional): Tuple of host (str) and port (int). Defaults to ('localhost', 1234).
+            timeout (int, optional): Timeout for requests in seconds. Defaults to 5.
+
+        """
+        self.address = address
         try:
-            self.sock = socket.create_connection(self.conn_str)
+            self.sock = socket.create_connection(self.address)
             self.sock.settimeout(timeout)
             self.sockfile = self.sock.makefile()
         except ConnectionError as e:
@@ -25,26 +33,26 @@ class JAPIClient():
     def list_push_services(self):
         """List available JAPI push services."""
         if self.sock is not None:
-            return self.query("japi_pushsrv_list").get("services", [])
+            return self.query('japi_pushsrv_list').get('services', [])
         return []
 
     def query(self, cmd: str, timeout=10, **kwargs):
         """Query JAPI server and return response."""
         if self.sock is None:
-            log.error("")
+            log.error('')
             return {}
-        log.debug("Use socket timeout %s", timeout)
+        log.debug('Use socket timeout %s', timeout)
 
-        cmd_request = {"japi_request": cmd}
+        cmd_request = {'japi_request': cmd}
         if kwargs:
             cmd_request['args'] = kwargs
-        log.debug("-> %s", cmd_request)
+        log.debug('-> %s', cmd_request)
 
-        json_cmd = json.dumps(cmd_request) + "\n"
+        json_cmd = json.dumps(cmd_request) + '\n'
         try:
             self.sock.sendall(json_cmd.encode())
             resp = self.sockfile.readline()
-            log.debug("<- %s", resp)
+            log.debug('<- %s', resp)
 
         except (
             socket.gaierror,
@@ -52,7 +60,7 @@ class JAPIClient():
             ConnectionAbortedError,
             ConnectionError,
         ):
-            log.warning("%s:%d is not available", self.conn_str[0], self.conn_str[1])
+            log.warning('%s:%d is not available', self.address[0], self.address[1])
             return False
         except Exception as e:
             log.warning(str(e))
@@ -61,7 +69,7 @@ class JAPIClient():
         try:
             response = json.loads(resp)
         except json.JSONDecodeError as e:
-            log.error("Cannot parse response: %s (%s)", resp, str(e))
+            log.error('Cannot parse response: %s (%s)', resp, str(e))
             return False
         except Exception as e:
             log.error(str(e))
@@ -72,7 +80,7 @@ class JAPIClient():
     def listen(self, service, n_pkg=0):
         """Listen for JAPI messages."""
         if self.sock is None:
-            log.warning("Not connected!")
+            log.warning('Not connected!')
             return {}
         self._subscribe(service)
         log.info(
@@ -88,17 +96,17 @@ class JAPIClient():
         for val in self.listen(service, n_pkg=1):
             return val
 
-    def _subscribe(self, service="counter"):
+    def _subscribe(self, service='counter'):
         """Subscribe to JAPI push service."""
-        log.info("Subscribing to %s push service.", service)
+        log.info('Subscribing to %s push service.', service)
         return self.query(
-            "japi_pushsrv_subscribe", service=service if service.startswith("push_") else f"push_{service}"
+            'japi_pushsrv_subscribe', service=service if service.startswith('push_') else f'push_{service}'
         )
 
-    def _unsubscribe(self, service="counter"):
+    def _unsubscribe(self, service='counter'):
         """Unsubscribe from JAPI push service."""
-        log.info("Unsubscribing from %s push service.", service)
-        return self.query("japi_pushsrv_unsubscribe", service=f"push_{service}")
+        log.info('Unsubscribing from %s push service.', service)
+        return self.query('japi_pushsrv_unsubscribe', service=f'push_{service}')
 
     def __del__(self):
         """Close socket upon deletion."""
@@ -108,58 +116,57 @@ class JAPIClient():
 
 @click.group(invoke_without_command=True)
 @click.option(
-    "--host",
-    envvar="JAPI_HOST",
-    default="127.0.2.0",
-    help="JAPI server hostname or ip",
+    '--host',
+    envvar='JAPI_HOST',
+    default='127.0.0.1',
+    help='JAPI server hostname or ip',
     type=click.STRING,
 )
 @click.option(
-    "-p",
-    "--port",
-    envvar="JAPI_PORT",
+    '-p',
+    '--port',
+    envvar='JAPI_PORT',
     default=1234,
-    help="JAPI server port",
+    help='JAPI server port',
     type=click.INT,
 )
-@click.option("-v", "--verbose", count=True, default=0, help="Increase verbosity of output.")
+@click.option('-v', '--verbose', count=True, default=0, help='Increase verbosity of output.')
 @click.pass_context
-def cli(ctx, host, port, verbose):
+def _cli(ctx, host, port, verbose):
     if verbose > 0:
         log.root.handlers = []  # Delete existing log handlers
         log.basicConfig(
             stream=sys.stdout,
             level=[log.WARN, log.INFO, log.DEBUG][verbose],
-            format="%(message)s",
+            format='%(message)s',
         )
-    log.info(f"Talking to {host}:{port}")
-    ctx.obj = JAPIClient(conn_str=(host, port))
+    log.info(f'Talking to {host}:{port}')
+    ctx.obj = JAPIClient(address=(host, port))
 
 
-@cli.command()
-@click.argument("service", default="counter")
-@click.argument("duration", default=0, type=click.INT)
+@_cli.command()
+@click.argument('service', default='counter')
+@click.argument('duration', default=0, type=click.INT)
 @click.pass_context
-def listen(ctx, service, duration):
-    # ctx.obj.listen(service, duration)
+def _listen(ctx, service, duration):
     for response in ctx.obj.listen(service, duration):
         click.echo(json.dumps(response))
 
 
-@cli.command()
-@click.argument("cmd")
-@click.option("-r", "--raw", is_flag=True, default=False, help="print raw response")
+@_cli.command()
+@click.argument('cmd')
+@click.option('-r', '--raw', is_flag=True, default=False, help='print raw response')
 @click.pass_context
-def request(ctx, cmd, raw):
+def _request(ctx, cmd, raw):
     response = ctx.obj.query(cmd)
     if raw:
         click.echo(json.dumps(response))
     else:
-        if "japi_response" in response:
-            response.pop("japi_response")
-        response = "\n".join([f"{key}={val}" for key, val in response.get('data').items()])
+        if 'japi_response' in response:
+            response.pop('japi_response')
+        response = '\n'.join([f'{key}={val}' for key, val in response.get('data').items()])
     click.echo(response)
 
 
-if __name__ == "__main__":
-    cli()
+if __name__ == '__main__':
+    _cli()
