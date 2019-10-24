@@ -32,6 +32,16 @@ $ pip3 install -e pyjapi/.
     (env) $ _
     ```
 
+- `japi request <COMMAND> [PARAMETERS]`
+
+    ```sh
+    (env) $ japi_pushsrv_subscribe service=push_temperature
+    temperature=17.0
+    unit=celsius
+
+    (env) $ _
+    ```
+
 ### List available push services
 
 - `japi list`

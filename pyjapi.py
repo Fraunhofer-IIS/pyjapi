@@ -172,19 +172,24 @@ def list(ctx):
 
 @_cli.command()
 @click.argument('cmd')
+@click.argument('parameters', nargs=-1)
 @click.option('-r', '--raw', is_flag=True, default=False, help='print raw response')
 @click.pass_context
-def request(ctx, cmd, raw):
+def request(ctx, cmd, parameters, raw):
     """Issue individual JAPI request.
 
-    CMD is the JAPI Command (e.g. get_temperature). So far, no additional values can be added to
-    the request.
+    CMD is the JAPI Command (e.g. get_temperature) followed by any additional PARAMETERS.
+    Parameters might be key-value-pairs in the form: key=value
 
-    i.e. request with additional arguments like {"japi_request": "japi_pushsrv_subscribe",
-    "service": "push_temperature"} cannot be issued using this command yet.
+    Examples: Subscribe to push_temperature service using `japi request`
+
+        $ japi request japi_pushsrv_subscribe service=push_temperature
 
     """
-    response = ctx.obj.query(cmd)
+    # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
+    parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
+
+    response = ctx.obj.query(cmd, **parameters)
     if raw:
         click.echo(json.dumps(response))
     else:
