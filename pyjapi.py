@@ -31,7 +31,7 @@ class JAPIClient():
     def list_push_services(self):
         """List available JAPI push services."""
         if self.sock is not None:
-            return self.query('japi_pushsrv_list').get('services', [])
+            return self.query('japi_pushsrv_list').get('data', {}).get('services', [])
         return []
 
     def query(self, cmd: str, **kwargs):
