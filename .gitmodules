@@ -1,0 +1,3 @@
+[submodule "libjapi-demo"]
+	path = libjapi-demo
+	url = ../libjapi-demo
