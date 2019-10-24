@@ -108,8 +108,10 @@ class JAPIClient():
 
     def __del__(self):
         """Close socket upon deletion."""
-        self.sockfile.close()
-        self.sock.close()
+        if self.sock:
+            if self.sockfile:
+                self.sockfile.close()
+            self.sock.close()
 
 
 @click.group(invoke_without_command=True)
