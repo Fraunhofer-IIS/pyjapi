@@ -75,7 +75,13 @@ class JAPIClient():
         return response
 
     def listen(self, service, n_pkg=0):
-        """Listen for JAPI messages."""
+        """Listen for *n* values of *service*.
+
+        Args:
+            service (str): name of push service
+            n (int): number of values to receive (optional, defaults to 0)
+
+        """
         if self.sock is None:
             log.warning('Not connected!')
             return {}
