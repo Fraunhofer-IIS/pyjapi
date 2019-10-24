@@ -16,7 +16,7 @@ $ pip3 install -e pyjapi/.
 
 ## Usage
 
-`japi [--host HOSTNAME] [--port N] [-v] (listen|request)`
+`japi [--host HOSTNAME] [--port N] [-v] (list|listen|request)`
 
 ## Examples
 
@@ -28,6 +28,19 @@ $ pip3 install -e pyjapi/.
     (env) $ japi request get_temperature
     temperature=27.0
     unit=celsius
+
+    (env) $ _
+    ```
+
+### List available push services
+
+- `japi list`
+
+    ```sh
+    (env) $ japi list
+    ['push_temperature']
+
+    (env) $ _
     ```
 
 ### Listen to JAPI push services
@@ -35,9 +48,10 @@ $ pip3 install -e pyjapi/.
 - `japi listen <PUSH_SERVICE_NAME> <N_PACKAGES>`
 
     ```sh
-    (env) $ japi listen temperature 3
+    (env) $ japi listen push_temperature 3
     {"temperature": 39.09297426825681}
     {"temperature": 38.632093666488736}
     {"temperature": 38.0849640381959}
+
     (env) $ _
     ```
