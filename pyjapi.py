@@ -196,7 +196,7 @@ def request(ctx, cmd, parameters, raw):
         if 'japi_response' in response:
             response.pop('japi_response')
         response = '\n'.join([f'{key}={val}' for key, val in response.get('data').items()])
-    click.echo(response)
+        click.echo(response)
 
 
 if __name__ == '__main__':
