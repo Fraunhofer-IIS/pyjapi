@@ -3,20 +3,13 @@
 ## Getting Started
 
 ```sh
-pip install git+https://git01.iis.fhg.de/mkj/pyjapi
-```
-
-If the above method doesn't work for you, try to clone and install in-place like this:
-
-```sh
-$ git clone https://git01.iis.fhg.de/mkj/pyjapi
-...
-$ pip3 install -e pyjapi/.
+git clone git@git01.iis.fhg.de:ks-ip-lib/software/pyjapi.git
+pip3 install -e pyjapi/.
 ```
 
 ## Usage
 
-`japi [--host HOSTNAME] [--port N] [-v] (list|listen|request)`
+`japi [--host HOSTNAME] [--port N] [--format FORMAT_NAME] [-v] (list|listen|request)`
 
 ## Examples
 
@@ -47,8 +40,8 @@ $ pip3 install -e pyjapi/.
 - `japi list`
 
     ```sh
-    (env) $ japi list
-    ['push_temperature']
+    (env) $ japi list                                                                           -2-
+    < japi_pushsrv_list(services=["push_temperature"])
 
     (env) $ _
     ```
@@ -59,9 +52,9 @@ $ pip3 install -e pyjapi/.
 
     ```sh
     (env) $ japi listen push_temperature 3
-    {"temperature": 39.09297426825681}
-    {"temperature": 38.632093666488736}
-    {"temperature": 38.0849640381959}
+    < push_temperature(temperature=24.833269096274833)
+    < push_temperature(temperature=25.414709848078964)
+    < push_temperature(temperature=25.912073600614352)
 
     (env) $ _
     ```
