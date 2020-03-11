@@ -1,17 +1,34 @@
 #!/usr/bin/env python3
 """JAPI Client in Python."""
+
 import json
 import logging as log
 import socket
 import sys
 
-import click
+JAPI_COMMANDS = {
+    "push_services_list": {
+        "japi_request": "japi_pushsrv_list"
+    },
+    "push_services_subscribe": {
+        "japi_request": "japi_pushsrv_subscribe",
+        "args": {
+            "service": "push_temperature"
+        }
+    },
+    "push_services_unsubscribe": {
+        "japi_request": "japi_pushsrv_unsubscribe",
+        "args": {
+            "service": "push_temperature"
+        }
+    }
+}
 
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
 
-    def __init__(self, address=('localhost', 1234), timeout=5):
+    def __init__(self, address=('localhost', 1234), format='none', timeout=5):
         """Create new JAPIClient object.
 
         Args:
@@ -26,13 +43,28 @@ class JAPIClient():
             self.sockfile = self.sock.makefile()
         except ConnectionError as e:
             self.sock = None
-            log.error(str(e))
+            raise (e)
 
-    def list_push_services(self):
-        """List available JAPI push services."""
+    def list_push_services(self, unpack=True):
+        """List available JAPI push services.
+        
+        Examples:
+            
+            >>> JAPIClient().list_push_services()
+            ["push_temperature"]
+            
+            >>> JAPIClient().list_push_services(unpack=False)
+            {'japi_response': 'japi_pushsrv_list', 'data': {'services': ['push_temperature']}}
+            
+        Returns: List of available push services
+        
+        """
+        r = []
         if self.sock is not None:
-            return self.query('japi_pushsrv_list').get('data', {}).get('services', [])
-        return []
+            r = self.query('japi_pushsrv_list')
+            if unpack:
+                r = r.get('data', {}).get('services', [])
+        return r
 
     def query(self, cmd: str, **kwargs):
         """Query JAPI server and return response."""
@@ -68,9 +100,6 @@ class JAPIClient():
         except json.JSONDecodeError as e:
             log.error('Cannot parse response: %s (%s)', resp, str(e))
             return False
-        except Exception as e:
-            log.error(str(e))
-            return False
 
         return response
 
@@ -90,7 +119,7 @@ class JAPIClient():
             f"Listening for {str(n_pkg)+' ' if n_pkg > 0 else ''}{service} package{'s' if n_pkg != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
-            yield json.loads(line).get('data')
+            yield json.loads(line)
             if n_pkg and n >= n_pkg:
                 break
 
@@ -112,92 +141,6 @@ class JAPIClient():
             self.sock.close()
 
 
-@click.group(invoke_without_command=True)
-@click.option(
-    '--host',
-    envvar='JAPI_HOST',
-    default='127.0.0.1',
-    help='JAPI server hostname or ip',
-    type=click.STRING,
-)
-@click.option(
-    '-p',
-    '--port',
-    envvar='JAPI_PORT',
-    default=1234,
-    help='JAPI server port',
-    type=click.INT,
-)
-@click.option('-v', '--verbose', count=True, default=0, help='Increase verbosity of output.')
-@click.pass_context
-def _cli(ctx, host, port, verbose):
-    if verbose > 0:
-        log.root.handlers = []  # Delete existing log handlers
-        log.basicConfig(
-            stream=sys.stdout,
-            level=[log.WARN, log.INFO, log.DEBUG][verbose],
-            format='%(message)s',
-        )
-    log.info(f'Talking to {host}:{port}')
-    ctx.obj = JAPIClient(address=(host, port))
-
-
-@_cli.command()
-@click.argument('service', default='push_temperature')
-@click.argument('n', default=0, type=click.INT)
-@click.pass_context
-def listen(ctx, service, n):
-    """Listen for values of push service.
-
-    If no SERVICE is given, SERVICE defaults to 'push_temperature' (available in libjapi-demo).
-    For a list of available SERVICEs, use
-
-        $ japi list
-
-    By default, values are continuously received until either server or client closes the
-    connection. Provide a positive integer for N to stop listening after N values have been
-    received.
-
-    """
-    for response in ctx.obj.listen(service, n):
-        click.echo(json.dumps(response))
-
-
-@_cli.command()
-@click.pass_context
-def list(ctx):
-    """List available push services."""
-    click.echo(json.dumps(ctx.obj.list_push_services()))
-
-
-@_cli.command()
-@click.argument('cmd')
-@click.argument('parameters', nargs=-1)
-@click.option('-r', '--raw', is_flag=True, default=False, help='print raw response')
-@click.pass_context
-def request(ctx, cmd, parameters, raw):
-    """Issue individual JAPI request.
-
-    CMD is the JAPI Command (e.g. get_temperature) followed by any additional PARAMETERS.
-    Parameters might be key-value-pairs in the form: key=value
-
-    Examples: Subscribe to push_temperature service using `japi request`
-
-        $ japi request japi_pushsrv_subscribe service=push_temperature
-
-    """
-    # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
-    parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
-
-    response = ctx.obj.query(cmd, **parameters)
-    if raw:
-        click.echo(json.dumps(response))
-    else:
-        if 'japi_response' in response:
-            response.pop('japi_response')
-        response = '\n'.join([f'{key}={val}' for key, val in response.get('data').items()])
-        click.echo(response)
-
-
-if __name__ == '__main__':
-    _cli()
+if __name__ == "__main__":
+    from cli import cli
+    cli()

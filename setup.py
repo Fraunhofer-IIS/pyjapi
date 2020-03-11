@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import setuptools
-
+#TODO: somehow add completion scripts
 setuptools.setup(
     name='pyjapi',
     description='JAPI client',
@@ -14,10 +14,10 @@ setuptools.setup(
     url='https://git01.iis.fhg.de/mkj/pyjapi',
     keywords='japi,libjapi,python,client',
     license='',
-    py_modules=['pyjapi'],
+    packages=setuptools.find_packages(exclude=['tests']),
     entry_points='''
         [console_scripts]
-        japi=pyjapi:_cli
+        japi=pyjapi.cli:cli
     ''',
     install_requires=['click>=7.0'],
     python_requires='>=3.6',

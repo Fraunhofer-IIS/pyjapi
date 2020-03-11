@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v0.4.0]
+
+### 👨‍💻 User-facing changes
+
+- Add formatting options (`-f/--format`)
+- Add autocompletion for zsh users (source `pyjapi-complete.zsh` or `.env`)
+- Fix issues when backend was unavailable
+
+### 🔩 Under the Hood
+
+- Refactor module into package for easier maintenance
+    - Extract command line interface into seperate module
+- Add `.env` file as example environment configuration
+    - includes sourcing `pyjapi-complete.zsh` for autocompletion
+- Declutter `.gitignore`
+
 ## [v0.3.1]
 
 - Support requests with additional parameters
