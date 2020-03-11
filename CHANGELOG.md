@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add formatting options (`-f/--format`)
 - Add autocompletion for zsh users (source `pyjapi-complete.zsh` or `.env`)
 - Fix issues when backend was unavailable
+- Support different ways to access command line interface
+    - Install package `pip install -e .` and run `japi`
+    - Install package `pip install -e .` and run `python -m pyjapi`
+    - Run `./src/pyjapi/cli.py` (experimental, might be deprecated soon)
 
 ### 🔩 Under the Hood
 
