@@ -14,6 +14,7 @@ setuptools.setup(
     url='https://git01.iis.fhg.de/mkj/pyjapi',
     keywords='japi,libjapi,python,client',
     license='',
+    package_dir={'': 'src'},
     packages=setuptools.find_packages(exclude=['tests']),
     entry_points='''
         [console_scripts]
