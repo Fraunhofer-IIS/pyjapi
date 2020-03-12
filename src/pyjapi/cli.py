@@ -152,6 +152,7 @@ def request(ctx, cmd, parameters, raw):
     # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
     parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
 
+    log.info(util.rformat(ctx.obj._build_request(cmd, **parameters)))
     response = ctx.obj.query(cmd, **parameters)
 
     if raw:

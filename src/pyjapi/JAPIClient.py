@@ -72,9 +72,7 @@ class JAPIClient():
             log.error('')
             return {}
 
-        cmd_request = {'japi_request': cmd}
-        if kwargs:
-            cmd_request['args'] = kwargs
+        cmd_request = self._build_request(cmd, **kwargs)
         log.debug('-> %s', cmd_request)
 
         json_cmd = json.dumps(cmd_request) + '\n'
@@ -132,6 +130,13 @@ class JAPIClient():
         """Unsubscribe from JAPI push service."""
         log.info('Unsubscribing from %s push service.', service)
         return self.query('japi_pushsrv_unsubscribe', service=f'push_{service}')
+
+    @staticmethod
+    def _build_request(cmd, **kwargs):
+        request = {'japi_request': cmd}
+        if kwargs:
+            request['args'] = kwargs
+        return request
 
     def __del__(self):
         """Close socket upon deletion."""
