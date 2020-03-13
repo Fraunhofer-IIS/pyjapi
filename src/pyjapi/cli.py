@@ -43,6 +43,16 @@ def format_completer(ctx, args, incomplete):
     return formats
 
 
+def format_callback(ctx, param, value):
+    if value in util.SUPPORTED_FORMATS:
+        util.FORMAT = value
+    else:
+        click.secho(
+            f'{value} is not a supported format. Supported formats are: {", ".join(util.SUPPORTED_FORMATS)}',
+            fg='red'
+        )
+    return value
+
 @click.group(invoke_without_command=True, context_settings=CTX_SETTINGS)
 @click.option(
     '-h',
@@ -71,6 +81,8 @@ def format_completer(ctx, args, incomplete):
     autocompletion=format_completer,
     type=click.STRING,
     show_default=True,
+    callback=format_callback,
+    expose_value=False
 )
 @click.option(
     '-v',
@@ -81,7 +93,7 @@ def format_completer(ctx, args, incomplete):
     type=click.INT,
 )
 @click.pass_context
-def cli(ctx, host, port, format, verbose):
+def cli(ctx, host, port, verbose):
     """User & Command Line Friendly JAPI Client."""
 
     # If no command is given, print help and exit
@@ -96,10 +108,9 @@ def cli(ctx, host, port, format, verbose):
         level=[log.WARN, log.INFO, log.DEBUG][verbose] if 0 <= verbose < 2 else log.DEBUG,
         format='%(message)s',
     )
-    util.FORMAT = format
     log.info(f'Talking to {host}:{port}')
     try:
-        ctx.obj = JAPIClient(address=(host, port), format=format)
+        ctx.obj = JAPIClient(address=(host, port))
     except ConnectionError as e:
         click.secho(f"{host}:{port} is not available!", fg='red')
         exit(1)

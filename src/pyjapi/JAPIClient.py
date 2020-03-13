@@ -28,7 +28,7 @@ JAPI_COMMANDS = {
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
 
-    def __init__(self, address=('localhost', 1234), format='none', timeout=5):
+    def __init__(self, address=('localhost', 1234), timeout=5):
         """Create new JAPIClient object.
 
         Args:
