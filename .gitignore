@@ -39,3 +39,8 @@ coverage.xml
 
 # Environments
 env/
+
+# Docs
+docs/source/api
+docs/source/README.md
+docs/source/CHANGELOG.md

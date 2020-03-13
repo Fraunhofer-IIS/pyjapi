@@ -21,5 +21,28 @@ setuptools.setup(
         japi=pyjapi.cli:cli
     ''',
     install_requires=['click>=7.0'],
+    extras_require={
+        'docs': [
+            'sphinx',
+            'sphinxcontrib-confluencebuilder',  # git+https://github.com/sphinx-contrib/confluencebuilder.git
+            'recommonmark',
+            'sphinx-nameko-theme',
+            'sphinx-click',
+            'sphinx-automodapi',
+            'sphinx-autodoc-typehints',
+            'sphinxcontrib-programoutput',
+            'sphinxcontrib-images',
+            'sphinx-git',
+            'jsonschema',  # required by jsonschemaext.py
+        ],
+        'dev': [
+            'pycodestyle',
+            'yapf',
+            'pylint',
+            'flake8',
+            'pydocstyle',
+            'pytest',
+        ]
+    },
     python_requires='>=3.6',
 )
