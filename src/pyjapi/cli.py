@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Command Line Interface for `~pyjapi.JAPIClient`."""
+"""Command Line Interface for :py:class:`JAPIClient`.
+
+Examples:
+
+    .. command-output:: japi request get_temperature unit=kelvin
+
+"""
 
 import json
 import logging as log
@@ -121,7 +127,7 @@ def listen(ctx, service, n):
     """Listen for values of push service.
 
     If no SERVICE is given, SERVICE defaults to 'push_temperature' (available in libjapi-demo).
-    For a list of available SERVICEs, use
+    For a list of available SERVICEs, use::
 
         $ japi list
 
@@ -152,9 +158,9 @@ def request(ctx, cmd, parameters, raw):
     CMD is the JAPI Command (e.g. get_temperature) followed by any additional PARAMETERS.
     Parameters might be key-value-pairs in the form: key=value
 
-    Examples: Subscribe to push_temperature service using `japi request`
+    **Example**: Request *temperature* value in Kelvin
 
-        $ japi request japi_pushsrv_subscribe service=push_temperature
+    .. command-output:: japi request get_temperature unit=kelvin
 
     """
     # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}

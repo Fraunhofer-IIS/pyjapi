@@ -32,6 +32,7 @@ setuptools.setup(
             'sphinx-autodoc-typehints',
             'sphinxcontrib-programoutput',
             'sphinxcontrib-images',
+            'sphinxcontrib-fulltoc',
             'sphinx-git',
             'jsonschema',  # required by jsonschemaext.py
         ],

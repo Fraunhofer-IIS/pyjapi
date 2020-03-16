@@ -6,24 +6,6 @@ import logging as log
 import socket
 import sys
 
-JAPI_COMMANDS = {
-    "push_services_list": {
-        "japi_request": "japi_pushsrv_list"
-    },
-    "push_services_subscribe": {
-        "japi_request": "japi_pushsrv_subscribe",
-        "args": {
-            "service": "push_temperature"
-        }
-    },
-    "push_services_unsubscribe": {
-        "japi_request": "japi_pushsrv_unsubscribe",
-        "args": {
-            "service": "push_temperature"
-        }
-    }
-}
-
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
@@ -66,8 +48,14 @@ class JAPIClient():
                 r = r.get('data', {}).get('services', [])
         return r
 
-    def query(self, cmd: str, **kwargs):
-        """Query JAPI server and return response."""
+    def query(self, cmd: str, **kwargs) -> dict:
+        """Query JAPI server and return response.
+        
+        If an error occured, an empty dictionary is returned.
+
+        Returns:
+            Response object
+        """
         if self.sock is None:
             log.error('')
             return {}

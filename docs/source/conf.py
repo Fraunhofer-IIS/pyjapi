@@ -55,6 +55,7 @@ extensions = [
     'sphinxcontrib.confluencebuilder',
     # Include Markdown Files (README, CHANGELOG, ...)
     'recommonmark',
+    'sphinxcontrib.fulltoc',
     'sphinxext.jsonschemaext',  # include jsonschema validation output
 ]
 
@@ -97,7 +98,6 @@ confluence_publish = True
 confluence_server_url = 'https://intern.iis.fhg.de/'
 confluence_server_user = 'mkj'
 confluence_server_pass = os.getenv("CONF_PW")
-# confluence_server_pass = "Vwdhw]NUz/WT7dsexv.FRjv/bt"
 confluence_parent_page = 'Home'
 confluence_space_name = 'DOCS'
 
