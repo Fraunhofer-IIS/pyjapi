@@ -43,14 +43,11 @@ def format_completer(ctx, args, incomplete):
     return formats
 
 
+# You cannot do any output to stdout in callbacks (will mess with autocompletion)
 def format_callback(ctx, param, value):
+    """Set `util.FORMAT` to *value* (if supported)."""
     if value in util.SUPPORTED_FORMATS:
         util.FORMAT = value
-    else:
-        click.secho(
-            f'{value} is not a supported format. Supported formats are: {", ".join(util.SUPPORTED_FORMATS)}',
-            fg='red'
-        )
     return value
 
 @click.group(invoke_without_command=True, context_settings=CTX_SETTINGS)
