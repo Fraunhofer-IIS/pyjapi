@@ -88,16 +88,19 @@ class JAPIClient():
             ConnectionError,
         ):
             log.warning('%s:%d is not available', self.address[0], self.address[1])
-            return False
+            return {}
+        except socket.timeout:
+            log.info("Request Timeout!")
+            return {}
         except Exception as e:
-            log.warning(str(e))
-            return False
+            log.info(str(e))
+            return {}
 
         try:
             response = json.loads(resp)
         except json.JSONDecodeError as e:
             log.error('Cannot parse response: %s (%s)', resp, str(e))
-            return False
+            return {}
 
         return response
 

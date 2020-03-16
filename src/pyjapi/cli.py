@@ -165,10 +165,12 @@ def request(ctx, cmd, parameters, raw):
 
     log.info(util.rformat(ctx.obj._build_request(cmd, **parameters)))
     response = ctx.obj.query(cmd, **parameters)
-
+    if response:
     if raw:
         util.FORMAT = 'none'
     click.echo(util.rformat(response))
+    else:
+        click.secho("No response received!", fg='red')
 
 
 if __name__ == '__main__':

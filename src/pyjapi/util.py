@@ -14,8 +14,24 @@ PREFIX_RCV = '< '
 
 
 def rtype(r: dict) -> str:
-    """Return japi message type (e.g. 'japi_request', 'japi_response')."""
-    return [k for k in r if k not in ('japi_request_no', 'data', 'args')][0]
+    """Return japi message type (e.g. 'japi_request', 'japi_response').
+    
+    >>> rtype({'japi_response': 'get_temperature'})
+    'japi_response'
+
+    >>> rtype({})
+    Traceback (most recent call last):
+    ...
+    ValueError: empty japi message does not have a type!
+
+    """
+    if r:
+        try:
+            return [k for k in r if k not in ('japi_request_no', 'data', 'args')][0]
+        except IndexError:
+            raise ValueError("unknown japi response type: %s" % str(r))
+    else:
+        raise ValueError("empty japi message does not have a type!")
 
 
 def _prefix(r: dict) -> str:
@@ -55,6 +71,9 @@ def rprint(r, *args, **kwargs):
 
 def rformat(r, format: str = None) -> str:
     """Format japi message *r* according to :py:data:`FORMAT`."""
+    if not r:
+        return ''
+
     if format is None:
         fmt = FORMAT
     elif format not in SUPPORTED_FORMATS:
