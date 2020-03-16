@@ -61,14 +61,13 @@ class JAPIClient():
             return {}
 
         cmd_request = self._build_request(cmd, **kwargs)
-        log.debug('-> %s', cmd_request)
+        log.debug('> %s', json.dumps(cmd_request))
 
         json_cmd = json.dumps(cmd_request) + '\n'
         try:
             self.sock.sendall(json_cmd.encode())
             resp = self.sockfile.readline()
-            log.debug('<- %s', resp)
-
+            log.debug('< %s', resp)
         except (
             socket.gaierror,
             ConnectionResetError,
