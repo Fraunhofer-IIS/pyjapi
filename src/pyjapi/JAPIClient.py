@@ -5,19 +5,33 @@ import json
 import logging as log
 import socket
 import sys
+import typing as t
+import uuid
 
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
 
-    def __init__(self, address=('localhost', 1234), timeout=3):
+    def __init__(
+        self,
+        address: t.Tuple[str, int] = ('localhost', 1234),
+        timeout: int = 3,
+        request_no: t.Union[int, bool] = False,
+    ):
         """Create new JAPIClient object.
 
         Args:
-            address (tuple, optional): Tuple of host (str) and port (int). Defaults to ('localhost', 1234).
-            timeout (int, optional): Timeout for requests in seconds. Defaults to 5.
+            address: Tuple of host (str) and port (int). Defaults to ('localhost', 1234).
+            timeout: Timeout for requests in seconds. Defaults to 5.
+            request_no:
+                Whether to include japi request number.
+                If a positive integer is given, request number starts at given integer and will increment with each message.
+                If `True` is given, :py:func:`uuid.uuid4` is used to generate a random request number with 6 characters.
+
 
         """
+        self._request_no = request_no
+        self.last_request = None
         self.address = address
         try:
             self.sock = socket.create_connection(self.address)
@@ -26,6 +40,16 @@ class JAPIClient():
         except ConnectionError as e:
             self.sock = None
             raise (e)
+
+    @property
+    def request_no(self):
+        if isinstance(self._request_no, bool):
+            if self._request_no:
+                return str(uuid.uuid4())[:6]
+            return False
+        elif isinstance(self._request_no, int):
+            self._request_no += 1
+            return self._request_no - 1
 
     def list_push_services(self, unpack=True):
         """List available JAPI push services.
@@ -91,12 +115,12 @@ class JAPIClient():
 
         return response
 
-    def listen(self, service, n_pkg=0):
+    def listen(self, service: str, n_pkg: int = 0):
         """Listen for *n* values of *service*.
 
         Args:
-            service (str): name of push service
-            n (int): number of values to receive (optional, defaults to 0)
+            service: name of push service
+            n: number of values to receive (optional, defaults to 0)
 
         """
         if self.sock is None:
@@ -121,11 +145,14 @@ class JAPIClient():
         log.info('Unsubscribing from %s push service.', service)
         return self.query('japi_pushsrv_unsubscribe', service=f'push_{service}')
 
-    @staticmethod
-    def _build_request(cmd, **kwargs):
+    def _build_request(self, cmd, **kwargs):
         request = {'japi_request': cmd}
+        if self.request_no:
+            request['japi_request_no'] = self.request_no
         if kwargs:
             request['args'] = kwargs
+
+        self.last_request = request
         return request
 
     def __del__(self):

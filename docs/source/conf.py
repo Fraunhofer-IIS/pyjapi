@@ -145,3 +145,50 @@ jsonschema_standard = 7
 # A format string template for the output of the prompt option to command-output. default: '$ {command}\n{output}'
 # Available variables: {command} {output} {returncode}
 # programoutput_prompt_template = "$ {command}\n{output}"
+
+# -- Options for autodoc -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
+
+# This value selects what content will be inserted into the main body of an autoclass directive.
+# The possible values are:
+#     "class": Only the class’ docstring is inserted. (default)
+#     "init": Only the __init__ method’s docstring is inserted.
+#     "both": Both the class’ and the __init__ method’s docstring are concatenated and inserted.
+#
+autoclass_content = "both"
+
+# This value selects if automatically documented members are:
+#     'alphabetical': sorted alphabetical, (default)
+#     'groupwise': by member type
+#     'bysource': or by source order
+# Note that for source order, the module must be a Python module with the source code available.
+#
+autodoc_member_order = "groupwise"
+
+# The default options for autodoc directives. They are applied to all autodoc directives automatically.
+# It must be a dictionary which maps option names to the values. Setting None or True to the value is
+# equivalent to giving only the option name to the directives.
+#
+# The supported options are 'members', 'member-order', 'undoc-members', 'private-members',
+# 'special-members', 'inherited-members', 'show-inheritance', 'ignore-module-all' and
+# 'exclude-members'.
+#
+autodoc_default_options = {
+    # 'members': None,
+    # 'member-order': 'bysource',
+    'undoc-members': True,
+    # 'private-members': True,
+    # 'special-members': True,
+    # 'inherited-members': True,
+    'show-inheritance': False,
+    'ignore-module-all': True,
+    'imported-members': False,
+    'exclude-members': None,
+}
+
+# This value controls the docstrings inheritance.
+#
+# True: the docstring for classes or methods, if not explicitly set, is inherited from parents. (default)
+# False: docstrings are not inherited.
+#
+autodoc_inherit_docstrings = True

@@ -43,7 +43,7 @@ def service_completer(ctx, args, incomplete):
 
 
 def format_completer(ctx, args, incomplete):
-    formats = [(fmt, desc) for fmt, desc in util.SUPPORTED_FORMATS.items()]
+    formats = [(fmt_name, fmt['desc']) for fmt_name, fmt in util.FORMATS.items()]
     if incomplete:
         formats = [fmt for fmt in formats if fmt[0].startswith(incomplete)]
     return formats
@@ -52,8 +52,7 @@ def format_completer(ctx, args, incomplete):
 # You cannot do any output to stdout in callbacks (will mess with autocompletion)
 def format_callback(ctx, param, value):
     """Set `util.FORMAT` to *value* (if supported)."""
-    if value in util.SUPPORTED_FORMATS:
-        util.FORMAT = value
+    util.FORMAT = value
     return value
 
 
@@ -79,12 +78,12 @@ def format_callback(ctx, param, value):
 @click.option(
     '-f',
     '--format',
-    default='concise',
+    default='oneline',
     allow_from_autoenv=True,
     help='Output format of JAPI messages',
     autocompletion=format_completer,
     type=click.STRING,
-    show_default=True,
+    show_default=os.getenv("JAPI_FORMAT") if "JAPI_FORMAT" in os.environ else True,
     callback=format_callback,
     expose_value=False
 )
@@ -92,6 +91,8 @@ def format_callback(ctx, param, value):
     '-v',
     '--verbose',
     count=True,
+    # allow_from_autoenv=True,  # this doesn't work for this option
+    show_default=os.getenv("JAPI_VERBOSE") if "JAPI_VERBOSE" in os.environ else True,
     default=0,
     help='Increase verbosity of output.',
     type=click.INT,
@@ -114,7 +115,7 @@ def cli(ctx, host, port, verbose):
     )
     log.info(f'Talking to {host}:{port}')
     try:
-        ctx.obj = JAPIClient(address=(host, port))
+        ctx.obj = JAPIClient(address=(host, port), request_no=True)
     except ConnectionError as e:
         click.secho(f"{host}:{port} is not available!", fg='red')
         exit(1)
@@ -137,7 +138,9 @@ def listen(ctx, service, n):
     received.
 
     """
-    for response in ctx.obj.listen(service, n):
+    for i, response in enumerate(ctx.obj.listen(service, n)):
+        if i == 0 and util.jformat(ctx.obj.last_request):
+            click.echo(util.jformat(ctx.obj.last_request))
         click.echo(util.jformat(response))
 
 
@@ -145,7 +148,10 @@ def listen(ctx, service, n):
 @click.pass_context
 def list(ctx):
     """List available push services."""
-    click.echo(util.jformat(ctx.obj.list_push_services(unpack=False)))
+    resp = ctx.obj.list_push_services(unpack=False)
+    if util.jformat(ctx.obj.last_request):
+        click.echo(util.jformat(ctx.obj.last_request))
+    click.echo(util.jformat(resp))
 
 
 @cli.command()
@@ -167,8 +173,8 @@ def request(ctx, cmd, parameters, raw):
     # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
     parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
 
-    log.info(util.jformat(ctx.obj._build_request(cmd, **parameters)))
     response = ctx.obj.query(cmd, **parameters)
+    click.echo(util.jformat(ctx.obj.last_request))
     if response:
         if raw:
             util.FORMAT = 'none'
