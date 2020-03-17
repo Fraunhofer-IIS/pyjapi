@@ -138,14 +138,14 @@ def listen(ctx, service, n):
 
     """
     for response in ctx.obj.listen(service, n):
-        click.echo(util.rformat(response))
+        click.echo(util.jformat(response))
 
 
 @cli.command()
 @click.pass_context
 def list(ctx):
     """List available push services."""
-    click.echo(util.rformat(ctx.obj.list_push_services(unpack=False)))
+    click.echo(util.jformat(ctx.obj.list_push_services(unpack=False)))
 
 
 @cli.command()
@@ -167,12 +167,12 @@ def request(ctx, cmd, parameters, raw):
     # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
     parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
 
-    log.info(util.rformat(ctx.obj._build_request(cmd, **parameters)))
+    log.info(util.jformat(ctx.obj._build_request(cmd, **parameters)))
     response = ctx.obj.query(cmd, **parameters)
     if response:
         if raw:
             util.FORMAT = 'none'
-        click.echo(util.rformat(response))
+        click.echo(util.jformat(response))
     else:
         click.secho("No response received!", fg='red')
 
