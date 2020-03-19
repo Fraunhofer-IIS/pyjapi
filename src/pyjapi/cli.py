@@ -187,4 +187,4 @@ def request(ctx, cmd, parameters, raw):
 
 
 if __name__ == '__main__':
-    cli()
+    cli(prog_name='japi')
