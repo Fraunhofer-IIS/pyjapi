@@ -31,7 +31,7 @@ PORT = int(os.getenv("JAPI_PORT", 1234))
 # JAPIClient instance used for autocompletion, as click.ctx doesn't exist yet
 try:
     J = JAPIClient((HOST, PORT))
-except ConnectionError as e:
+except Exception as e:
     J = None
 
 
