@@ -1,0 +1,45 @@
+image: python:latest
+
+stages:
+  - test
+  - docs
+  - publish
+
+coverage:
+  stage: test
+  script:
+    - pip install -e .[dev]
+    - pytest --cov=src/pyjapi --cov-report=term
+    - coverage html
+  coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
+  artifacts:
+    paths:
+      - htmlcov
+
+build_docs:
+  stage: docs
+  script:
+    - pip install -e .[dev,docs]
+    - cd docs
+    - make html
+  artifacts:
+    paths:
+      - docs/build/html
+  only:
+    - master
+    - staging
+
+pages:
+  stage: publish
+  dependencies:
+    - coverage
+    - build_docs
+  script:
+    - mv docs/build/html public
+    - mv htmlcov public/coverage
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+    - staging
