@@ -51,7 +51,7 @@ def format_completer(ctx, args, incomplete):
 
 # You cannot do any output to stdout in callbacks (will mess with autocompletion)
 def format_callback(ctx, param, value):
-    """Set `util.FORMAT` to *value* (if supported)."""
+    """Set `pyjapi.util.FORMAT` to *value* (if supported)."""
     util.FORMAT = value
     return value
 

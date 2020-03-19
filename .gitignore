@@ -42,5 +42,6 @@ env/
 
 # Docs
 docs/source/api
+docs/source/apidoc
 docs/source/README.md
 docs/source/CHANGELOG.md

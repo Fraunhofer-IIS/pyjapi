@@ -149,7 +149,7 @@ def jprint(r, fmt: str = None, colorize: str = None, *args, **kwargs):
 
 
 def jformat(r, fmt: str = None, colorize: bool = None) -> str:
-    """Format japi message *r* according to :py:data:`FORMAT`."""
+    """Format japi message *r* according to :py:data:`~pyjapi.util.FORMAT`."""
 
     if not r:
         return ''
@@ -159,10 +159,13 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
         if FORMAT in FORMATS:
             fmt = FORMAT
         else:
-            log.warning("'%s' is not a supported format! Will revert to default format '%s'.", FORMAT, _FORMAT_DEFAULT)
+            log.warning(
+                "FORMAT='%s' is not a supported format! Will revert to default format '%s'.", FORMAT,
+                _FORMAT_DEFAULT
+            )
             FORMAT = fmt = _FORMAT_DEFAULT
     elif fmt not in FORMATS:
-        log.warning("%s is not a supported format!", fmt)
+        log.warning("fmt='%s' is not a supported format!", fmt)
         fmt = FORMAT
 
     global COLORIZE

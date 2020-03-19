@@ -7,8 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [latest]
 
-- Add Documentation
+- Command Line Interface
+    - More output formats
+- Documentation
+    - Add Documentation
     - Documentation can be published to Confluence for more visibility
+- Fixes
+    - fix response being printed twice on --raw
+    - handle response timeouts gracefully (timeout after 2 seconds)
+- Tests
+    - Add doctests
+- Refactoring
+    - pyjapi is now a package instead of a module
+    - split cli and JAPIClient
 
 ## [v0.4.0]
 

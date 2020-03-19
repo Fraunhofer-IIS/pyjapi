@@ -17,7 +17,7 @@ APIDOCOPTS    = -fTMe --implicit-namespaces
 # -T / --no-toc: do not create a toc file (default filename: modules.rst)
 # -M / --module-first:
 # see http://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
-APIDOCDIR	  = api
+APIDOCDIR	  = apidoc
 PYREVERSEARGS = --ignore=__init__,__main__.py --filter-mode=PUB_ONLY --output pdf
 # -f, --filter-mode		Which attributes are displayed in class diagram [PUB_ONLY, ALL, SPECIAL, OTHER] (default: PUB_ONLY)
 # -o, --output			Set output format [dot, pdf, png, ...] (default: dot)
@@ -29,7 +29,7 @@ help:
 .PHONY: help Makefile 
 
 # custom targets
-.PHONY: external uml apidoc apiclean fresh uml uml-ci
+.PHONY: external uml apidoc apiclean very uml uml-ci
 external: source/CHANGELOG.md source/README.md
 source/CHANGELOG.md:
 	cp ../CHANGELOG.md source/.
@@ -49,12 +49,13 @@ apidoc:
         perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
     done
 
-apiclean:
-	@rm -rf $(SOURCEDIR)/api
+very:
+	@rm -rf $(SOURCEDIR)/automodapi
 	@rm -rf $(SOURCEDIR)/$(APIDOCDIR)
-fresh: apiclean clean
+	@rm -rf $(SOURCEDIR)/README.md
+	@rm -rf $(SOURCEDIR)/CHANGELOG.md
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile external apidoc
+%: Makefile external
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

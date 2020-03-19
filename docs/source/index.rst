@@ -4,11 +4,11 @@ pyjapi
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :titlesonly:
 
    README.md
-   api
-   apidoc
    cli
+   apidoc
    CHANGELOG.md
 
 

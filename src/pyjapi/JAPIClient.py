@@ -42,7 +42,8 @@ class JAPIClient():
             raise (e)
 
     @property
-    def request_no(self):
+    def request_no(self) -> t.Union[bool, int, str]:
+        """Returns suitable *japi_request_no* or `False`, if none should be used."""
         if isinstance(self._request_no, bool):
             if self._request_no:
                 return str(uuid.uuid4())[:6]
@@ -57,7 +58,7 @@ class JAPIClient():
         Examples:
             
             >>> JAPIClient().list_push_services()
-            ["push_temperature"]
+            ['push_temperature']
             
             >>> JAPIClient().list_push_services(unpack=False)
             {'japi_response': 'japi_pushsrv_list', 'data': {'services': ['push_temperature']}}
@@ -115,32 +116,34 @@ class JAPIClient():
 
         return response
 
-    def listen(self, service: str, n_pkg: int = 0):
+    def listen(self, service: str, n_messages: int = 0) -> dict:
         """Listen for *n* values of *service*.
 
         Args:
             service: name of push service
-            n: number of values to receive (optional, defaults to 0)
+            n_messages: number of messages to listen for (optional, defaults to 0)
 
+        Returns:
+            Push service messages
         """
         if self.sock is None:
             log.warning('Not connected!')
             return {}
         self._subscribe(service)
         log.info(
-            f"Listening for {str(n_pkg)+' ' if n_pkg > 0 else ''}{service} package{'s' if n_pkg != 1 else ''}..."
+            f"Listening for {str(n_messages)+' ' if n_messages > 0 else ''}{service} package{'s' if n_messages != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
             yield json.loads(line)
-            if n_pkg and n >= n_pkg:
+            if n_messages and n >= n_messages:
                 break
 
-    def _subscribe(self, service='counter'):
+    def _subscribe(self, service):
         """Subscribe to JAPI push service."""
         log.info('Subscribing to %s push service.', service)
         return self.query('japi_pushsrv_subscribe', service=service)
 
-    def _unsubscribe(self, service='counter'):
+    def _unsubscribe(self, service):
         """Unsubscribe from JAPI push service."""
         log.info('Unsubscribing from %s push service.', service)
         return self.query('japi_pushsrv_unsubscribe', service=f'push_{service}')
