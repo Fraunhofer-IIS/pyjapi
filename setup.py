@@ -34,6 +34,7 @@ setuptools.setup(
             'sphinxcontrib-programoutput',
             'sphinxcontrib-images',
             'sphinxcontrib-fulltoc',
+            'sphinxcontrib.apidoc'  # build apidocs during sphinx-build
             'sphinx-git',
             'jsonschema',  # required by jsonschemaext.py
         ],
