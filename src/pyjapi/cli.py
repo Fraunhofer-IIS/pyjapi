@@ -21,6 +21,8 @@ except ImportError:  # support execution without proper installation for now
     import util
     import err
 
+__version__ = '0.4.0'
+
 CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 
 HOST = os.getenv("JAPI_HOST", 'localhost')
@@ -97,6 +99,7 @@ def format_callback(ctx, param, value):
     help='Increase verbosity of output.',
     type=click.INT,
 )
+@click.version_option(__version__, message="%(version)s")
 @click.pass_context
 def cli(ctx, host, port, verbose):
     """User & Command Line Friendly JAPI Client."""
