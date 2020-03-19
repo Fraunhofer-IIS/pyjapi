@@ -38,7 +38,7 @@ class JAPIClient():
             self.sock.settimeout(timeout)
             self.sockfile = self.sock.makefile()
         except Exception as e:
-            self.sock = None
+            self.sock = self.sockfile = None
             raise (e)
 
     @property
@@ -137,6 +137,7 @@ class JAPIClient():
             yield json.loads(line)
             if n_messages and n >= n_messages:
                 break
+        self._unsubscribe(service)
 
     def _subscribe(self, service):
         """Subscribe to JAPI push service."""
@@ -146,7 +147,7 @@ class JAPIClient():
     def _unsubscribe(self, service):
         """Unsubscribe from JAPI push service."""
         log.info('Unsubscribing from %s push service.', service)
-        return self.query('japi_pushsrv_unsubscribe', service=f'push_{service}')
+        return self.query('japi_pushsrv_unsubscribe', service=service)
 
     def _build_request(self, cmd, **kwargs):
         request = {'japi_request': cmd}
@@ -164,8 +165,3 @@ class JAPIClient():
             if self.sockfile:
                 self.sockfile.close()
             self.sock.close()
-
-
-if __name__ == "__main__":
-    from cli import cli
-    cli()
