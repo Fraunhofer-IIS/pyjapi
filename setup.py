@@ -44,7 +44,8 @@ setuptools.setup(
             'flake8',
             'pydocstyle',
             'pytest',
-        ]
+            'pytest-coverage',
+        ],
     },
     python_requires='>=3.6',
 )
