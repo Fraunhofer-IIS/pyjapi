@@ -119,7 +119,7 @@ def cli(ctx, host, port, verbose):
     log.info(f'Talking to {host}:{port}')
     try:
         ctx.obj = JAPIClient(address=(host, port), request_no=True)
-    except ConnectionError as e:
+    except Exception as e:
         click.secho(f"{host}:{port} is not available!", fg='red')
         exit(1)
 

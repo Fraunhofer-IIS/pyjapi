@@ -37,7 +37,7 @@ class JAPIClient():
             self.sock = socket.create_connection(self.address)
             self.sock.settimeout(timeout)
             self.sockfile = self.sock.makefile()
-        except ConnectionError as e:
+        except Exception as e:
             self.sock = None
             raise (e)
 
