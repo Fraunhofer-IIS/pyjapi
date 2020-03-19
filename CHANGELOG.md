@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - handle response timeouts gracefully (timeout after 2 seconds)
 - Tests
     - Add doctests
+    - Add basic cli and client tests
+- CI
+    - Run tests in CI Pipeline
+    - Publish docs and coverage report via Gitlab Pages
 - Refactoring
     - pyjapi is now a package instead of a module
     - split cli and JAPIClient
