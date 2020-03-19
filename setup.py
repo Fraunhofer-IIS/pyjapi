@@ -6,7 +6,7 @@ setuptools.setup(
     name='pyjapi',
     description='JAPI client',
     long_description='',
-    version='0.4.0',
+    version='0.5.0',
     author='Jannis Mainczyk',
     author_email='jannis.mainczyk@iis.fraunhofer.de',
     maintainer='Jannis Mainczyk',

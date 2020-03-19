@@ -21,7 +21,7 @@ except ImportError:  # support execution without proper installation for now
     import util
     import err
 
-__version__ = '0.4.0'
+__version__ = '0.5.0'
 
 CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 
