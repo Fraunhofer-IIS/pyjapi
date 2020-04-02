@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [latest]
 
+## [v0.5.1]
+
+Fix issue where first JAPIClient connection, used for push service completion, was kept alive unnecesseraly long. This solves an issue encountered with pylibjapi backends, as the first connection blocked the receiving socket, which caused a timeout in the client.
+
+## [v0.5.0]
+
 - Command Line Interface
     - More output formats
 - Documentation

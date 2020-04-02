@@ -28,19 +28,17 @@ CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 HOST = os.getenv("JAPI_HOST", 'localhost')
 PORT = int(os.getenv("JAPI_PORT", 1234))
 
-# JAPIClient instance used for autocompletion, as click.ctx doesn't exist yet
-try:
-    J = JAPIClient((HOST, PORT))
-except Exception as e:
-    J = None
-
 
 def service_completer(ctx, args, incomplete):
-    if J:
+    # JAPIClient instance used for autocompletion, as click.ctx doesn't exist yet
+    try:
+        J = JAPIClient((HOST, PORT))
         services = J.list_push_services()
         if incomplete:
             services = [s for s in services if s.startswith(incomplete)]
         return services
+    except Exception as e:
+        pass
     return []
 
 
