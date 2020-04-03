@@ -20,7 +20,11 @@ setuptools.setup(
         [console_scripts]
         japi=pyjapi.cli:cli
     ''',
-    install_requires=['click>=7.0'],
+    install_requires=[
+        'click>=7.0',
+        'strconv',
+        'python-dateutil',
+    ],
     extras_require={
         'docs': [
             'sphinx',

@@ -8,6 +8,8 @@ import sys
 import typing as t
 import uuid
 
+import strconv
+
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
@@ -153,6 +155,10 @@ class JAPIClient():
         request = {'japi_request': cmd}
         if self.request_no:
             request['japi_request_no'] = self.request_no
+
+        # infer types of string arguments
+        kwargs = {k: strconv.convert(v) for k, v in kwargs.items()}
+
         if kwargs:
             request['args'] = kwargs
 
