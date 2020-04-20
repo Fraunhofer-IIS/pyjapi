@@ -157,7 +157,7 @@ class JAPIClient():
             request['japi_request_no'] = self.request_no
 
         # infer types of string arguments
-        kwargs = {k: transform(v) for k, v in kwargs.items()}
+        kwargs = {k: convert_numbers(v) for k, v in kwargs.items()}
         kwargs = {k: strconv.convert(v) for k, v in kwargs.items()}
 
         if kwargs:
