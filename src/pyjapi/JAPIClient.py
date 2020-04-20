@@ -157,6 +157,7 @@ class JAPIClient():
             request['japi_request_no'] = self.request_no
 
         # infer types of string arguments
+        kwargs = {k: transform(v) for k, v in kwargs.items()}
         kwargs = {k: strconv.convert(v) for k, v in kwargs.items()}
 
         if kwargs:
@@ -171,3 +172,25 @@ class JAPIClient():
             if self.sockfile:
                 self.sockfile.close()
             self.sock.close()
+
+
+def convert_numbers(v):
+    """Convert string numbers other than base 10 to base 10.
+
+    Examples:
+
+        >>> convert_numbers('0b1001')
+        '17'
+        >>> convert_numbers('0o21')
+        '17'
+        >>> convert_numbers('0x11')
+        '17'
+
+    """
+    if v.lower().startswith("0x"):
+        return str(int(v[2:], base=16))
+    if v.lower().startswith("0o"):
+        return str(int(v[2:], base=8))
+    if v.lower().startswith("0b"):
+        return str(int(v[2:], base=2))
+    return v

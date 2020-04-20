@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [latest]
 
+- Parse hexadecimal ('0x...'), octal ('0o...') and binary ('0b...') to integers
+
 ## [v0.5.2]
 
 - Add type inference for JAPI argument values
