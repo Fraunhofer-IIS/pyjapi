@@ -87,36 +87,12 @@ class JAPIClient():
             log.error('')
             return {}
 
-        cmd_request = self._build_request(cmd, **kwargs)
-        log.debug('> %s', json.dumps(cmd_request))
+        msg_request = self._build_request(cmd, **kwargs)
+        log.debug('> %s', json.dumps(msg_request))
 
-        json_cmd = json.dumps(cmd_request) + '\n'
-        try:
-            self.sock.sendall(json_cmd.encode())
-            resp = self.sockfile.readline()
-            log.debug('< %s', resp)
-        except (
-            socket.gaierror,
-            ConnectionResetError,
-            ConnectionAbortedError,
-            ConnectionError,
-        ):
-            log.warning('%s:%d is not available', self.address[0], self.address[1])
-            return {}
-        except socket.timeout:
-            log.info("Request Timeout!")
-            return {}
-        except Exception as e:
-            log.info(str(e))
-            return {}
+        msg_response = self._request(msg_request)
 
-        try:
-            response = json.loads(resp)
-        except json.JSONDecodeError as e:
-            log.error('Cannot parse response: %s (%s)', resp, str(e))
-            return {}
-
-        return response
+        return msg_response
 
     def listen(self, service: str, n_messages: int = 0) -> dict:
         """Listen for *n* values of *service*.
@@ -165,6 +141,35 @@ class JAPIClient():
 
         self.last_request = request
         return request
+
+    def _request(self, japi_request):
+        json_cmd = json.dumps(japi_request) + '\n'
+        try:
+            self.sock.sendall(json_cmd.encode())
+            resp = self.sockfile.readline()
+            log.debug('< %s', resp)
+        except (
+            socket.gaierror,
+            ConnectionResetError,
+            ConnectionAbortedError,
+            ConnectionError,
+        ):
+            log.warning('%s:%d is not available', self.address[0], self.address[1])
+            return {}
+        except socket.timeout:
+            log.info("Request Timeout!")
+            return {}
+        except Exception as e:
+            log.info(str(e))
+            return {}
+
+        try:
+            response = json.loads(resp)
+        except json.JSONDecodeError as e:
+            log.error('Cannot parse response: %s (%s)', resp, str(e))
+            return {}
+
+        return response
 
     def __del__(self):
         """Close socket upon deletion."""
