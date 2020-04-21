@@ -1,4 +1,4 @@
-from .JAPIClient import JAPIClient
-from .util import jprint, jformat
-from .cli import cli, __version__
+from .cli import __version__, cli
 from .err import *
+from .JAPIClient import JAPIClient
+from .util import jformat, jprint

@@ -6,13 +6,19 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import os
+import pathlib
+import sys
+
+# The theme to use for HTML and HTML Help pages.  See the documentation for
+# a list of builtin themes.
+#
+import sphinx_nameko_theme
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import pathlib
-import sys
-import os
 sys.path.insert(0, pathlib.Path(__file__).parent.parent.parent/'src')
 # include source directory to load custom extensions
 sys.path.insert(0, os.path.abspath(os.path.dirname('__file__')))
@@ -77,10 +83,6 @@ default_role = 'py:obj'
 
 # -- Options for HTML output -------------------------------------------------
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-import sphinx_nameko_theme
 html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
 html_theme = 'nameko'
 

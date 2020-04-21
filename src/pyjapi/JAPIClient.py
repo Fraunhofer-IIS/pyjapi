@@ -56,17 +56,17 @@ class JAPIClient():
 
     def list_push_services(self, unpack=True):
         """List available JAPI push services.
-        
+
         Examples:
-            
+
             >>> JAPIClient().list_push_services()
             ['push_temperature']
-            
+
             >>> JAPIClient().list_push_services(unpack=False)
             {'japi_response': 'japi_pushsrv_list', 'data': {'services': ['push_temperature']}}
-            
+
         Returns: List of available push services
-        
+
         """
         r = []
         if self.sock is not None:
@@ -77,11 +77,12 @@ class JAPIClient():
 
     def query(self, cmd: str, **kwargs) -> dict:
         """Query JAPI server and return response.
-        
+
         If an error occured, an empty dictionary is returned.
 
         Returns:
             Response object
+
         """
         if self.sock is None:
             log.error('')

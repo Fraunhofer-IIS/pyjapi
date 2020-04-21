@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import setuptools
+
 #TODO: somehow add completion scripts
 setuptools.setup(
     name='pyjapi',

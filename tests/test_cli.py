@@ -1,7 +1,7 @@
 import pytest
 from click.testing import CliRunner, Result
 
-from pyjapi import cli, __version__
+from pyjapi import __version__, cli
 
 
 def test_version_displays_library_version():

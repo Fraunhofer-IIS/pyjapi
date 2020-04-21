@@ -1,5 +1,5 @@
 import pathlib
-from subprocess import run, CompletedProcess
+from subprocess import CompletedProcess, run
 
 
 def test_execution_via_module():
