@@ -193,10 +193,11 @@ def convert_numbers(v):
         '17'
 
     """
-    if v.lower().startswith("0x"):
-        return str(int(v[2:], base=16))
-    if v.lower().startswith("0o"):
-        return str(int(v[2:], base=8))
-    if v.lower().startswith("0b"):
-        return str(int(v[2:], base=2))
+    if isinstance(v, str):
+        if v.lower().startswith("0x"):
+            return str(int(v[2:], base=16))
+        if v.lower().startswith("0o"):
+            return str(int(v[2:], base=8))
+        if v.lower().startswith("0b"):
+            return str(int(v[2:], base=2))
     return v
