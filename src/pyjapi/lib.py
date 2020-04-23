@@ -110,7 +110,7 @@ class JAPIClient():
             return {}
         self._subscribe(service)
         log.info(
-            f"Listening for {str(n_messages)+' ' if n_messages > 0 else ''}{service} package{'s' if n_messages != 1 else ''}..."
+            f"Listening for {str(n_messages)+' ' if n_messages > 0 else ''}'{service}' package{'s' if n_messages != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
             yield json.loads(line)
@@ -120,12 +120,12 @@ class JAPIClient():
 
     def _subscribe(self, service):
         """Subscribe to JAPI push service."""
-        log.info('Subscribing to %s push service.', service)
+        log.info("Subscribing to '%s' push service.", service)
         return self.query('japi_pushsrv_subscribe', service=service)
 
     def _unsubscribe(self, service):
         """Unsubscribe from JAPI push service."""
-        log.info('Unsubscribing from %s push service.', service)
+        log.info("Unsubscribing from '%s' push service.", service)
         return self.query('japi_pushsrv_unsubscribe', service=service)
 
     def _build_request(self, cmd, **kwargs):
@@ -155,7 +155,7 @@ class JAPIClient():
             ConnectionAbortedError,
             ConnectionError,
         ):
-            log.warning('%s:%d is not available', self.address[0], self.address[1])
+            log.warning("'%s:%d' is not available", self.address[0], self.address[1])
             return {}
         except socket.timeout:
             log.info("Request Timeout!")
