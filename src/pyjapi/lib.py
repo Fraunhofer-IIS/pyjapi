@@ -185,7 +185,7 @@ def convert_numbers(v):
 
     Examples:
 
-        >>> convert_numbers('0b1001')
+        >>> convert_numbers('0b10001')
         '17'
         >>> convert_numbers('0o21')
         '17'
