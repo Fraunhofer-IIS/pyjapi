@@ -14,12 +14,7 @@ import sys
 
 import click
 
-try:
-    from pyjapi import JAPIClient, util, err
-except ImportError:  # support execution without proper installation for now
-    from JAPIClient import JAPIClient
-    import util
-    import err
+from pyjapi import JAPIClient, err, util
 
 __version__ = '0.5.2'
 
