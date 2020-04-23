@@ -14,9 +14,10 @@ import sys
 
 import click
 
-from pyjapi import JAPIClient, err, util
+from pyjapi import err, lib, util
+from pyjapi.lib import JAPIClient
 
-__version__ = '0.5.2'
+__version__ = '0.5.2-dev-spec_common'
 
 CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 
