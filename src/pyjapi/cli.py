@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Command Line Interface for :py:class:`JAPIClient`.
+"""Command Line Interface for :py:class:`pyjapi.lib.JAPIClient`.
+
+Tip:
+
+    For a documentation of all cli commands and options, see :ref:`cli`
 
 Examples:
 
@@ -15,7 +19,6 @@ import sys
 import click
 
 from pyjapi import err, lib, util
-from pyjapi.lib import JAPIClient
 
 __version__ = '0.5.2-dev-spec_common'
 
@@ -28,7 +31,7 @@ PORT = int(os.getenv("JAPI_PORT", 1234))
 def service_completer(ctx, args, incomplete):
     # JAPIClient instance used for autocompletion, as click.ctx doesn't exist yet
     try:
-        J = JAPIClient((HOST, PORT))
+        J = lib.JAPIClient((HOST, PORT))
         services = J.list_push_services()
         if incomplete:
             services = [s for s in services if s.startswith(incomplete)]
@@ -87,7 +90,7 @@ def format_callback(ctx, param, value):
     '-v',
     '--verbose',
     count=True,
-    # allow_from_autoenv=True,  # this doesn't work for this option
+    allow_from_autoenv=True,  # this doesn't work for this option
     show_default=os.getenv("JAPI_VERBOSE") if "JAPI_VERBOSE" in os.environ else True,
     default=0,
     help='Increase verbosity of output.',
@@ -112,7 +115,7 @@ def cli(ctx, host, port, verbose):
     )
     log.info(f'Talking to {host}:{port}')
     try:
-        ctx.obj = JAPIClient(address=(host, port), request_no=True)
+        ctx.obj = lib.JAPIClient(address=(host, port), request_no=True)
     except Exception as e:
         click.secho(f"{host}:{port} is not available!", fg='red')
         exit(1)

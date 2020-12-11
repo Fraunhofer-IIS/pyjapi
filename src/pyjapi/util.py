@@ -9,7 +9,7 @@ The following examples will work with the following example request and response
     >>> resp_incl_args = {'japi_response': 'get_temperature', 'data': {'temperature': 17.0}, 'args': {'unit': 'celsius'}, 'japi_request_no': 123456}
 
 By default, rformat will use `_FORMAT_DEFAULT` and add escape sequences for color highlights:
-    
+
     >>> jprint(req)
     > \033[33mget_temperature\033[0m(\033[92munit\033[0m=\033[94m"celsius"\033[0m) \033[2m#123456\033[0m
 
@@ -21,7 +21,7 @@ To disable colorization for individual strings, provide the following argument t
 Besides color, there are several output formats to choose from. The default one, ``FORMAT='oneline'``,
 as you have already seen, will parse JAPI messages and replace textual with visual elements, where
 appropiate:
-    
+
     - requests and responses are distinguished via prefixes ('>' for outgoing requests, '<' for incoming responses)
     - arguments are transformed to look like parameters of a method call, with the japi command as method name.
     - request number is displayed with leading '#'
@@ -110,7 +110,7 @@ FORMAT = _FORMAT_DEFAULT
 
 def rtype(r: dict) -> str:
     """Return japi message type (e.g. 'japi_request', 'japi_response').
-    
+
     >>> rtype({'japi_response': 'get_temperature'})
     'japi_response'
 

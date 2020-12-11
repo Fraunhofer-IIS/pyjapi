@@ -100,13 +100,14 @@ confluence_publish = True
 confluence_server_url = 'https://intern.iis.fhg.de/'
 confluence_server_user = 'mkj'
 confluence_server_pass = os.getenv("CONF_PW")
-confluence_parent_page = 'Project Documentation'
+confluence_parent_page = 'libjapi clients'
 confluence_space_name = 'DOCS'
 
 # Generic configuration.
 confluence_page_hierarchy = True
 
 # Publishing configuration.
+confluence_disable_notifications = True
 # confluence_purge = True
 
 # -- Options for sphinx-automodapi -----------------------------------------------

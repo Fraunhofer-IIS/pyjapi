@@ -28,7 +28,7 @@ setuptools.setup(
     ],
     extras_require={
         'docs': [
-            'sphinx<3.0.0',
+            'sphinx',
             'sphinx-autobuild',
             'sphinxcontrib-confluencebuilder',  # git+https://github.com/sphinx-contrib/confluencebuilder.git
             'recommonmark',
