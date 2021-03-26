@@ -10,6 +10,8 @@ import uuid
 
 import strconv
 
+from .types import JAPIResponse, JAPIRequest
+
 
 class JAPIClient():
     """Connect and interact with arbitrary libJAPI-based backend."""
@@ -88,8 +90,8 @@ class JAPIClient():
             log.error('')
             return {}
 
-        msg_request = self._build_request(cmd, **kwargs)
-        log.debug('> %s', json.dumps(msg_request))
+        msg_request = JAPIRequest(self._build_request(cmd, **kwargs))
+        log.debug('> %s', msg_request.dumps())
 
         msg_response = self._request(msg_request)
 
@@ -143,7 +145,7 @@ class JAPIClient():
         self.last_request = request
         return request
 
-    def _request(self, japi_request):
+    def _request(self, japi_request: JAPIRequest) -> JAPIResponse:
         json_cmd = json.dumps(japi_request) + '\n'
         try:
             self.sock.sendall(json_cmd.encode())
@@ -166,6 +168,7 @@ class JAPIClient():
 
         try:
             response = json.loads(resp)
+            response = JAPIResponse(response)
         except json.JSONDecodeError as e:
             log.error('Cannot parse response: %s (%s)', resp, str(e))
             return {}
