@@ -80,7 +80,7 @@ def format_callback(ctx, param, value):
     default='oneline',
     allow_from_autoenv=True,
     help='Output format of JAPI messages',
-    autocompletion=format_completer,
+    shell_complete=format_completer,
     type=click.STRING,
     show_default=os.getenv("JAPI_FORMAT") if "JAPI_FORMAT" in os.environ else True,
     callback=format_callback,
@@ -122,7 +122,7 @@ def cli(ctx, host, port, verbose):
 
 
 @cli.command()
-@click.argument('service', default='push_temperature', autocompletion=service_completer)
+@click.argument('service', default='push_temperature', shell_complete=service_completer)
 @click.argument('n', default=0, type=click.INT)
 @click.pass_context
 def listen(ctx, service, n):

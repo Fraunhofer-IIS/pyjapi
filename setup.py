@@ -22,7 +22,7 @@ setuptools.setup(
         japi=pyjapi.cli:cli
     ''',
     install_requires=[
-        'click>=7.0',
+        'click>=8.0',
         'strconv',
         'python-dateutil',
     ],
