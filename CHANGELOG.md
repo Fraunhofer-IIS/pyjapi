@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔩 Under the Hood
 
 - Use `pyproject.toml` over `setup.py` for packaging information
+- Update docs to use furo theme and myst markdown parser
 
 ## [v0.5.2]
 

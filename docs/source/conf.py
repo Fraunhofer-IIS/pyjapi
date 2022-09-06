@@ -41,8 +41,7 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinxcontrib.confluencebuilder',
     # Include Markdown Files (README, CHANGELOG, ...)
-    'recommonmark',
-    'sphinxcontrib.fulltoc',
+    'myst_parser',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -53,21 +52,12 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.txt': 'restructuredtext',
-    '.md': 'markdown',
-}
-
 default_role = 'py:obj'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-import sphinx_nameko_theme
-
-html_theme_path = [sphinx_nameko_theme.get_html_theme_path()]
-html_theme = 'nameko'
+html_theme = 'furo'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -134,7 +124,7 @@ intersphinx_mapping = {
 # https://sphinxcontrib-images.readthedocs.io/en/latest/
 images_config = {
     'backend': 'LightBox2',  # default: 'LightBox2'
-    'override_image_directive': False,  ## default: False
+    'override_image_directive': False,  # default: False
     'cache_path': '_images',  # default: '_images'
     'requests_kwargs': {},  # default: {}
     'default_image_width': '100%',  # default: '100%'

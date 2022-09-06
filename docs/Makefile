@@ -26,15 +26,10 @@ PYREVERSEARGS = --ignore=__init__,__main__.py --filter-mode=PUB_ONLY --output pd
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile 
+.PHONY: help Makefile
 
 # custom targets
-.PHONY: external uml apidoc apiclean very uml uml-ci
-external: source/CHANGELOG.md source/README.md
-source/CHANGELOG.md:
-	cp ../CHANGELOG.md source/.
-source/README.md:
-	cp ../README.md source/.
+.PHONY: uml apidoc apiclean very uml uml-ci
 uml: uml-ci
 	@open $(BUILDDIR)/uml/*.pdf
 uml-ci:
@@ -52,10 +47,8 @@ apidoc:
 very:
 	@rm -rf $(SOURCEDIR)/automodapi
 	@rm -rf $(SOURCEDIR)/$(APIDOCDIR)
-	@rm -rf $(SOURCEDIR)/README.md
-	@rm -rf $(SOURCEDIR)/CHANGELOG.md
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile external
+%: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
