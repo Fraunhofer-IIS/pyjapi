@@ -174,11 +174,17 @@ def request(ctx, cmd, parameters, raw):
     parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
 
     response = ctx.obj.query(cmd, **parameters)
-    click.echo(util.jformat(ctx.obj.last_request))
+
+    request_str = util.jformat(ctx.obj.last_request)
+    if request_str:
+        click.echo(request_str)
+
     if response:
         if raw:
-            util.FORMAT = 'none'
-        click.echo(util.jformat(response))
+            util.FORMAT = "none"
+        response_str = util.jformat(response)
+        if response_str:
+            click.echo(response_str)
     else:
         click.secho("No response received!", fg='red')
 
