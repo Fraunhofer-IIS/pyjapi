@@ -26,7 +26,7 @@ build_docs:
     paths:
       - docs/build/html
   only:
-    - master
+    - main
     - staging
 
 pages:
@@ -41,7 +41,7 @@ pages:
     paths:
       - public
   only:
-    - master
+    - main
     - staging
 
 package:
@@ -52,5 +52,5 @@ package:
     - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url https://git01.iis.fhg.de/api/v4/projects/${CI_PROJECT_ID}/packages/pypi dist/*
   when: manual
   only:
-   - master
+   - main
    - staging
