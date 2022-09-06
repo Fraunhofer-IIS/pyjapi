@@ -103,16 +103,18 @@ def cli(ctx, host, port, verbose):
     # Configure logger
     log.root.handlers = []
     log.basicConfig(
-        stream=sys.stdout,
+        stream=sys.stderr,
         level=[log.WARN, log.INFO, log.DEBUG][verbose] if 0 <= verbose < 2 else log.DEBUG,
         format='%(message)s',
     )
-    log.info(f'Talking to {host}:{port}')
-    try:
-        ctx.obj = lib.JAPIClient(address=(host, port), request_no=True)
-    except Exception as e:
-        click.secho(f"{host}:{port} is not available!", fg='red')
-        exit(1)
+
+    if ctx.invoked_subcommand not in ["completions"]:
+        log.info(f'Talking to {host}:{port}')
+        try:
+            ctx.obj = lib.JAPIClient(address=(host, port), request_no=True)
+        except Exception:
+            click.secho(f"{host}:{port} is not available!", fg='red')
+            exit(1)
 
 
 @cli.command()
@@ -184,6 +186,45 @@ def request(ctx, cmd, parameters, raw):
             click.echo(response_str)
     else:
         click.secho("No response received!", fg='red')
+
+
+completion_shells = ["bash", "zsh", "fish"]
+
+
+@cli.command()
+@click.argument('shell', type=click.Choice([*completion_shells, "-", ""]), default="")
+def completions(shell):
+    """Generate shell completions.
+
+    Activate in current shell:
+
+        eval "`japi completions -`"
+    """
+    import subprocess
+    if not shell:
+        click.secho(
+            'To enable shell completion, run\n\n'
+            '    eval "`japi completions -`"\n\n'
+            'If your shell is not detected automatically, you can specify it as argument like this:\n\n'
+            '    eval "`japi completions zsh`"'
+        )
+    elif shell == "-":
+        log.debug("Trying to detect shell...")
+
+        for idx, env_shell in enumerate([
+            "bash" if "BASH" in os.environ else "",
+            "zsh" if "ZSH_NAME" in os.environ else "",
+            os.getenv("PYENV_SHELL"),
+            os.environ["SHELL"].split("/")[-1],  # return completions for default shell
+        ], start=1):
+            if env_shell in completion_shells:
+                log.debug("Detected(%d): %s", idx, env_shell)
+                shell = env_shell
+                break
+        else:
+            raise click.UsageError("Couldn't detect shell. Please specify shell as argument, like this\n\n    $ japi completions zsh")
+
+    click.echo(subprocess.getoutput(f"_JAPI_COMPLETE={shell}_source japi"))
 
 
 if __name__ == '__main__':
