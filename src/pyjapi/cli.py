@@ -7,14 +7,13 @@ Tip:
 
 """
 
-import json
 import logging as log
 import os
 import sys
 
 import click
 
-from pyjapi import err, lib, util
+from pyjapi import lib, util
 
 __version__ = '0.5.2'
 
@@ -32,9 +31,8 @@ def service_completer(ctx, args, incomplete):
         if incomplete:
             services = [s for s in services if s.startswith(incomplete)]
         return services
-    except Exception as e:
-        pass
-    return []
+    except Exception:
+        return []
 
 
 def format_completer(ctx, args, incomplete):
