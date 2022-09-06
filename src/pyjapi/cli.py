@@ -16,7 +16,7 @@ from click.shell_completion import CompletionItem
 
 from pyjapi import lib, util
 
-__version__ = '0.5.2'
+__version__ = '0.6.0'
 
 CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 

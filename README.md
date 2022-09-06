@@ -2,7 +2,15 @@
 
 ## Getting Started
 
-```sh
+Install from Gitlab's package registry directly:
+
+```console
+pip3 install pyjapi --index-url https://__token__:glpat-Ld7LCzjjjx32xFR3YNKG@git01.iis.fhg.de/api/v4/projects/5422/packages/pypi/simple
+```
+
+Alternatively, you might want to clone the project and go from there:
+
+```console
 git clone git@git01.iis.fhg.de:ks-ip-lib/software/pyjapi.git
 pip3 install -e pyjapi/.
 ```

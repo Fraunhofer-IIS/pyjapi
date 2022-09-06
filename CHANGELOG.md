@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [latest]
 
+## [0.6.0]
+
 - Parse hexadecimal ('0x...'), octal ('0o...') and binary ('0b...') to integers
 - Requests/response are not echoed when they are empty (after formatting has been applied)
+- Add `completions` command which allows to enable shell completions via `eval "\`japi completions -\`"`
 
 ### 🔩 Under the Hood
 
+- Publish package in Gitlab's package registry
 - Use `pyproject.toml` over `setup.py` for packaging information
 - Update docs to use furo theme and myst markdown parser
+- Add documentation for `pyjapi.err` module
 
 ## [v0.5.2]
 
@@ -98,7 +103,8 @@ Fix issue where first JAPIClient connection, used for push service completion, w
 
 - extracted from [interstellar/sw_adc](https://git01.iis.fhg.de/abt-hfs/interstellar/sw_adc), based on [`JAPIClient.py`](https://git01.iis.fhg.de/abt-hfs/interstellar/gui_adc/-/blob/b281c0925600d76839bb11a63ef23a7433734467/gui/JAPIClient.py) and [`interstellar-cli`](https://git01.iis.fhg.de/abt-hfs/interstellar/sw_adc/-/blob/d5abdf3d22a65bee2e01c37e8bc4376278550f00/cli/interstellar-cli)
 
-[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.2...main
+[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.0...main
+[v0.6.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.2...v0.6.0
 [v0.5.2]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.1...v0.5.2
 [v0.5.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.0...v0.5.1
 [v0.5.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.4.0...v0.5.0

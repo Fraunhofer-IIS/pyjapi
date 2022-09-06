@@ -9,7 +9,7 @@
 project = 'pyjapi'
 copyright = '2022, Jannis Mainczyk'
 author = 'Jannis Mainczyk'
-release = '0.5.2'
+release = '0.6.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
