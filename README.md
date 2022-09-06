@@ -36,7 +36,7 @@ pip3 install -e pyjapi/.
 - `japi list`
 
     ```console
-    $ japi list                                                                           -2-
+    $ japi list
     < japi_pushsrv_list(services=["push_temperature"])
     ```
 
