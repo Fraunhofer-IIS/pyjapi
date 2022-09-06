@@ -1,3 +1,3 @@
-[submodule "libjapi-demo"]
-	path = libjapi-demo
-	url = ../libjapi-demo
+[submodule "ext/libjapi-demo"]
+	path = ext/libjapi-demo
+	url = ../libjapi-demo.git
