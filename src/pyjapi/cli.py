@@ -5,10 +5,6 @@ Tip:
 
     For a documentation of all cli commands and options, see :ref:`cli`
 
-Examples:
-
-    .. command-output:: japi request get_temperature unit=kelvin
-
 """
 
 import json
@@ -167,8 +163,11 @@ def request(ctx, cmd, parameters, raw):
 
     **Example**: Request *temperature* value in Kelvin
 
-    .. command-output:: japi request get_temperature unit=kelvin
+    .. code-block:: console
 
+       $ japi request get_temperature unit=kelvin
+       > get_temperature(unit="kelvin") #d8564d
+       < get_temperature(unit="kelvin") #d8564d --> temperature=290.0
     """
     # Convert tuple of parameter list into dict: ('foo', 'bar=1') -> {'foo': '', 'bar': '1'}
     parameters = {p.split('=')[0]: p.split('=')[1] if '=' in p else '' for p in parameters}
