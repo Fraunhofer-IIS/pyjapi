@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Parse hexadecimal ('0x...'), octal ('0o...') and binary ('0b...') to integers
 
+### 🔩 Under the Hood
+
+- Use `pyproject.toml` over `setup.py` for packaging information
+
 ## [v0.5.2]
 
 - Add type inference for JAPI argument values

@@ -20,7 +20,7 @@ import click
 
 from pyjapi import err, lib, util
 
-__version__ = '0.5.2-dev-spec_common'
+__version__ = '0.5.2'
 
 CTX_SETTINGS = dict(auto_envvar_prefix="JAPI")
 

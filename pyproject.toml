@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+urls = { repository = "https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi" }
+name = "pyjapi"
+description = "JAPI client"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["japi", "libjapi", "python", "click"]
+dependencies = ['click>=8.0', 'strconv', 'python-dateutil']
+# version = "0.5.2"
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = { attr = "pyjapi.cli.__version__" }
+
+[project.optional-dependencies]
+docs = [
+    'sphinx',
+    'sphinx-autobuild',
+    'sphinxcontrib-confluencebuilder', # git+https://github.com/sphinx-contrib/confluencebuilder.git
+    'myst_parser',
+    'furo',
+    'sphinx-click',
+    'sphinx-automodapi',
+    'sphinx-autodoc-typehints',
+    'sphinxcontrib-programoutput',
+    'sphinxcontrib-images',
+    'sphinxcontrib.apidoc',            # build apidocs during sphinx-build
+    'sphinx-git',
+    'jsonschema',                      # required by jsonschemaext.py
+]
+dev = [
+    'pycodestyle',
+    'yapf',
+    'pylint',
+    'flake8',
+    'pydocstyle',
+    'coverage',
+    'pytest',
+    'pytest-cov',
+    'nox',
+]
+
+[project.scripts]
+japi = "pyjapi.cli:cli"
