@@ -37,6 +37,7 @@ dev = [
     'yapf',
     'pylint',
     'flake8',
+    'flake8-bandit',
     'pydocstyle',
     'coverage',
     'pytest',
