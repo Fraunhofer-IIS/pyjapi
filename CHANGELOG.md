@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [latest]
 
-## [0.6.0]
+## [v0.6.0]
 
 - Parse hexadecimal ('0x...'), octal ('0o...') and binary ('0b...') to integers
 - Requests/response are not echoed when they are empty (after formatting has been applied)
