@@ -196,7 +196,7 @@ def completions(shell):
 
     Activate in current shell:
 
-        eval "`japi completions -`"
+        eval "\`japi completions -\`"
     """
     import subprocess
     if not shell:
