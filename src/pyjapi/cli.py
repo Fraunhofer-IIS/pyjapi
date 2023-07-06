@@ -171,15 +171,13 @@ def request(ctx, cmd, parameters, raw):
 
     response = ctx.obj.query(cmd, **parameters)
 
-    request_str = util.jformat(ctx.obj.last_request)
-    if request_str:
+    if request_str := util.jformat(ctx.obj.last_request):
         click.echo(request_str)
 
     if response:
         if raw:
             util.FORMAT = "none"
-        response_str = util.jformat(response)
-        if response_str:
+        if response_str := util.jformat(response):
             click.echo(response_str)
     else:
         click.secho("No response received!", fg='red')

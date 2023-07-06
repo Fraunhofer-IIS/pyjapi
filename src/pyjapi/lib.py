@@ -4,7 +4,6 @@
 import json
 import logging as log
 import socket
-import sys
 import typing as t
 import uuid
 
@@ -49,9 +48,7 @@ class JAPIClient():
     def request_no(self) -> t.Union[bool, int, str]:
         """Returns suitable *japi_request_no* or `False`, if none should be used."""
         if isinstance(self._request_no, bool):
-            if self._request_no:
-                return str(uuid.uuid4())[:6]
-            return False
+            return str(uuid.uuid4())[:6] if self._request_no else False
         elif isinstance(self._request_no, int):
             self._request_no += 1
             return self._request_no - 1
@@ -80,7 +77,7 @@ class JAPIClient():
     def query(self, cmd: str, **kwargs) -> dict:
         """Query JAPI server and return response.
 
-        If an error occured, an empty dictionary is returned.
+        If an error occurred, an empty dictionary is returned.
 
         Returns:
             Response object
@@ -93,9 +90,7 @@ class JAPIClient():
         msg_request = JAPIRequest(self._build_request(cmd, **kwargs))
         log.debug('> %s', msg_request.dumps())
 
-        msg_response = self._request(msg_request)
-
-        return msg_response
+        return self._request(msg_request)
 
     def listen(self, service: str, n_messages: int = 0) -> dict:
         """Listen for *n* values of *service*.
@@ -112,7 +107,7 @@ class JAPIClient():
             return {}
         self._subscribe(service)
         log.info(
-            f"Listening for {str(n_messages)+' ' if n_messages > 0 else ''}'{service}' package{'s' if n_messages != 1 else ''}..."
+            f"Listening for {f'{n_messages} ' if n_messages > 0 else ''}'{service}' package{'s' if n_messages != 1 else ''}..."
         )
         for n, line in enumerate(self.sock.makefile(), start=1):
             yield json.loads(line)
@@ -135,11 +130,9 @@ class JAPIClient():
         if self.request_no:
             request['japi_request_no'] = self.request_no
 
-        # infer types of string arguments
-        kwargs = {k: convert_numbers(v) for k, v in kwargs.items()}
-        kwargs = {k: strconv.convert(v) for k, v in kwargs.items()}
-
-        if kwargs:
+        if kwargs := {
+            k: strconv.convert(convert_numbers(v)) for k, v in kwargs.items()
+        }:
             request['args'] = kwargs
 
         self.last_request = request
@@ -151,12 +144,7 @@ class JAPIClient():
             self.sock.sendall(json_cmd.encode())
             resp = self.sockfile.readline()
             log.debug('< %s', resp)
-        except (
-            socket.gaierror,
-            ConnectionResetError,
-            ConnectionAbortedError,
-            ConnectionError,
-        ):
+        except (socket.gaierror, ConnectionError):
             log.warning("'%s:%d' is not available", self.address[0], self.address[1])
             return {}
         except socket.timeout:
