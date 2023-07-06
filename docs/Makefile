@@ -29,7 +29,7 @@ help:
 .PHONY: help Makefile
 
 # custom targets
-.PHONY: uml apidoc apiclean very uml uml-ci
+.PHONY: uml apidoc clean uml uml-ci
 uml: uml-ci
 	@open $(BUILDDIR)/uml/*.pdf
 uml-ci:
@@ -44,7 +44,7 @@ apidoc:
         perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
     done
 
-very:
+clean:
 	@rm -rf $(SOURCEDIR)/automodapi
 	@rm -rf $(SOURCEDIR)/$(APIDOCDIR)
 
