@@ -3,6 +3,7 @@ import logging as log
 import pytest
 
 from pyjapi import JAPIClient
+from pyjapi.lib import convert
 
 
 @pytest.fixture
@@ -29,10 +30,18 @@ def test_pushsrv_commands(client, cmd):
     assert r["japi_response"] == cmd
 
 
-def test_type_inference(client):
+@pytest.mark.parametrize(
+    "value,expected",
+    [
+        ("some_string", "some_string"),
+        ("false", False),
+        ("1000", 1000),
+        ("1.2", 1.2),
+        ("1e4", 10000.0),
+        ("-inf", float("-inf")),
+    ],
+)
+def test_type_inference(value, expected):
     """Test type inference is working."""
-    kwargs = {'str': 'string', 'bool': 'false', 'int': '1000', 'float': '1.2', 'float': '1e4', 'float': '-inf'}
-    japi_request = client._build_request("command", **kwargs)
-    assert isinstance(japi_request['args'], dict)
-    for k, v in japi_request['args'].items():
-        assert isinstance(v, eval(k))
+    result = convert(value)
+    assert result == expected

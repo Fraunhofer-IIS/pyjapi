@@ -130,10 +130,8 @@ class JAPIClient:
         if self.request_no:
             request["japi_request_no"] = self.request_no
 
-        if kwargs := {
-            k: strconv.convert(convert_numbers(v)) for k, v in kwargs.items()
-        }:
-            request['args'] = kwargs
+        if kwargs := {k: convert(v) for k, v in kwargs.items()}:
+            request["args"] = kwargs
 
         self.last_request = request
         return request
@@ -169,6 +167,11 @@ class JAPIClient:
             if self.sockfile:
                 self.sockfile.close()
             self.sock.close()
+
+
+def convert(v: str) -> t.Any:
+    """Cast v to appropriate type."""
+    return strconv.convert(convert_numbers(v))
 
 
 def convert_numbers(v):
