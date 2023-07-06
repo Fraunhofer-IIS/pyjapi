@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 urls = { repository = "https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi" }
@@ -10,14 +10,14 @@ readme = "README.md"
 requires-python = ">=3.6"
 keywords = ["japi", "libjapi", "python", "click"]
 dependencies = ['click>=8.0', 'strconv', 'python-dateutil']
-# version = "0.5.2"
 dynamic = ["version"]
 
-[tool.setuptools.dynamic]
-version = { attr = "pyjapi.cli.__version__" }
+[tool.hatch.version]
+path = "src/pyjapi/cli.py"
 
-[project.optional-dependencies]
-docs = [
+
+[tool.hatch.envs.docs]
+dependencies = [
     'sphinx',
     'sphinx-autobuild',
     'sphinxcontrib-confluencebuilder', # git+https://github.com/sphinx-contrib/confluencebuilder.git
@@ -32,7 +32,13 @@ docs = [
     'sphinx-git',
     'jsonschema',                      # required by jsonschemaext.py
 ]
-dev = [
+[tool.hatch.envs.docs.scripts]
+html = "cd docs && make html"
+live = "cd docs && make live"
+uml = "cd docs && make uml"
+
+[tool.hatch.envs.dev]
+dependencies = [
     'pycodestyle',
     'yapf',
     'pylint',
