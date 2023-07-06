@@ -6,10 +6,12 @@ SPHINXOPTS    ?= -E -a -n
 #  -n	nit-picky mode, warn about all missing references
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
-BUILDDIR      = build
+BUILDDIR      = ../build/docs
 SPHINXPROJ 	  = pyjapi
 PKGROOTDIR    = ../src/pyjapi
 APIDOCOPTS    = -fTMe --implicit-namespaces
+AUTOBUILDOPTS = --open-browser --watch ../README.md --watch ../src
+AUTOBUILDDIR  = $(BUILDDIR)/live
 # -f: overwrite already built rst files
 # -d 4: set maximum toctree depth
 # -E / --no-heading
@@ -29,7 +31,7 @@ help:
 .PHONY: help Makefile
 
 # custom targets
-.PHONY: uml apidoc clean uml uml-ci
+.PHONY: uml uml-ci apidoc live clean
 uml: uml-ci
 	@open $(BUILDDIR)/uml/*.pdf
 uml-ci:
@@ -43,6 +45,9 @@ apidoc:
 	@-for f in $(SOURCEDIR)/$(APIDOCDIR)/*.rst; do\
         perl -pi -e 's/(module|package)$$// if $$. == 1' $$f ;\
     done
+live:
+	sphinx-autobuild $(SPHINXOPTS) $(AUTOBUILDOPTS) "$(SOURCEDIR)" "$(AUTOBUILDDIR)"
+
 
 clean:
 	@rm -rf $(SOURCEDIR)/automodapi

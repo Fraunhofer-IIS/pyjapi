@@ -30,7 +30,7 @@ build_docs:
     - make html
   artifacts:
     paths:
-      - docs/build/html
+      - build/docs/html
   only:
     - main
     - staging
@@ -41,7 +41,7 @@ pages:
     - coverage
     - build_docs
   script:
-    - mv docs/build/html public
+    - mv build/docs/html public
     - mv htmlcov public/coverage
   artifacts:
     paths:
