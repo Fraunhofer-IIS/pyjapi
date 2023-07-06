@@ -12,7 +12,6 @@ import os
 import sys
 
 import click
-from click.shell_completion import CompletionItem
 
 from pyjapi import lib, util
 
@@ -37,7 +36,7 @@ def service_completer(ctx, args, incomplete):
 
 
 def format_completer(ctx, args, incomplete):
-    return [CompletionItem(fmt_name, help=fmt['desc']) for fmt_name, fmt in util.FORMATS.items() if not incomplete or fmt_name.startswith(incomplete)]
+    return [click.shell_completion.CompletionItem(fmt_name, help=fmt['desc']) for fmt_name, fmt in util.FORMATS.items() if not incomplete or fmt_name.startswith(incomplete)]
 
 
 # You cannot do any output to stdout in callbacks (will mess with autocompletion)
