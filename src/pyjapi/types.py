@@ -4,7 +4,6 @@ import logging as log
 
 
 class JAPIMessage(dict):
-
     def __init__(self, initdata=None):
         dict.__init__(self, initdata)
 

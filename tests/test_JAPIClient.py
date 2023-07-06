@@ -14,11 +14,14 @@ def client():
     yield client
 
 
-@pytest.mark.parametrize('cmd', [
-    'japi_pushsrv_list',
-    'japi_pushsrv_subscribe',
-    'japi_pushsrv_unsubscribe',
-])
+@pytest.mark.parametrize(
+    "cmd",
+    [
+        "japi_pushsrv_list",
+        "japi_pushsrv_subscribe",
+        "japi_pushsrv_unsubscribe",
+    ],
+)
 def test_pushsrv_commands(client, cmd):
     r = client.query(cmd)
     log.info(r)

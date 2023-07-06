@@ -66,41 +66,41 @@ B = BLUE = "\033[94m"
 DEFAULT = "\033[39m"
 X = RESET = "\033[0m"
 
-PREFIX_SENT = '> '
-PREFIX_RCV = '< '
+PREFIX_SENT = "> "
+PREFIX_RCV = "< "
 
 FORMATS = {
-    'multiline': {
-        'desc': 'display complete message in human-readable format',
-        'fmt': '{prefix}{type}({args}){msg_id}{data_parsed_newlines}',
+    "multiline": {
+        "desc": "display complete message in human-readable format",
+        "fmt": "{prefix}{type}({args}){msg_id}{data_parsed_newlines}",
     },
-    'oneline': {
-        'desc': 'display important parts of message on single line',
-        'fmt': '{prefix}{type}({args}){msg_id} --> {data_parsed_oneline}',
-        'fmt_japi_request': '{prefix}{type}({args}){msg_id}',
-        'fmt_japi_pushsrv': '{prefix}{type}({args}) --> {data_parsed_oneline}',
+    "oneline": {
+        "desc": "display important parts of message on single line",
+        "fmt": "{prefix}{type}({args}){msg_id} --> {data_parsed_oneline}",
+        "fmt_japi_request": "{prefix}{type}({args}){msg_id}",
+        "fmt_japi_pushsrv": "{prefix}{type}({args}) --> {data_parsed_oneline}",
     },
-    'indent': {
-        'desc': 'indented json with color',
-        'fmt': '{c_on}{json_indented}{c_off}',
+    "indent": {
+        "desc": "indented json with color",
+        "fmt": "{c_on}{json_indented}{c_off}",
     },
-    'data': {
-        'desc': 'display only response data',
-        'fmt_japi_request': '',
-        'fmt': '{data}',
+    "data": {
+        "desc": "display only response data",
+        "fmt_japi_request": "",
+        "fmt": "{data}",
     },
-    'values': {
-        'desc': 'display only response data values',
-        'fmt': '{values}',
+    "values": {
+        "desc": "display only response data values",
+        "fmt": "{values}",
     },
-    'none': {
-        'desc': 'no formatting at all',
-        'fmt': '{json}',
-    }
+    "none": {
+        "desc": "no formatting at all",
+        "fmt": "{json}",
+    },
 }
 """All formats supported by :func:`jformat`."""
 
-_FORMAT_DEFAULT = 'oneline'
+_FORMAT_DEFAULT = "oneline"
 """Fallback when `FORMAT` is set to unknown format."""
 
 COLORIZE = True
@@ -122,7 +122,7 @@ def rtype(r: dict) -> str:
     """
     if r:
         try:
-            return [k for k in r if k not in ('japi_request_no', 'data', 'args')][0]
+            return [k for k in r if k not in ("japi_request_no", "data", "args")][0]
         except IndexError:
             raise ValueError("unknown japi response type: %s" % str(r))
     else:
@@ -130,12 +130,12 @@ def rtype(r: dict) -> str:
 
 
 def _prefix(r: dict) -> str:
-    return PREFIX_SENT if rtype(r) == 'japi_request' else PREFIX_RCV
+    return PREFIX_SENT if rtype(r) == "japi_request" else PREFIX_RCV
 
 
 def _color_for_msg_type(r: dict):
     """Return `GREEN` for japi_requests, `YELLOW` otherwise (e.g. japi_responses and push values)."""
-    return _(GREEN) if rtype(r) == 'japi_request' else _(YELLOW)
+    return _(GREEN) if rtype(r) == "japi_request" else _(YELLOW)
 
 
 def _(color: str = "") -> str:
@@ -144,7 +144,7 @@ def _(color: str = "") -> str:
 
 
 def jprint(r, fmt: str = None, colorize: str = None, *args, **kwargs):
-    '''Pretty-print JAPI packages.'''
+    """Pretty-print JAPI packages."""
     print(jformat(r, fmt=fmt, colorize=colorize), *args, **kwargs)
 
 
@@ -152,7 +152,7 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
     """Format japi message *r* according to :py:data:`~pyjapi.util.FORMAT`."""
 
     if not r:
-        return ''
+        return ""
 
     if fmt is None:
         global FORMAT
@@ -160,8 +160,9 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
             fmt = FORMAT
         else:
             log.warning(
-                "FORMAT='%s' is not a supported format! Will revert to default format '%s'.", FORMAT,
-                _FORMAT_DEFAULT
+                "FORMAT='%s' is not a supported format! Will revert to default format '%s'.",
+                FORMAT,
+                _FORMAT_DEFAULT,
             )
             FORMAT = fmt = _FORMAT_DEFAULT
     elif fmt not in FORMATS:
@@ -172,25 +173,40 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
     COLORIZE_ORIGINAL = COLORIZE
     if colorize is not None:
         COLORIZE = colorize
-        log.debug(f'Colorization turned {"on" if colorize else "off"} for this string...')
+        log.debug(
+            f'Colorization turned {"on" if colorize else "off"} for this string...'
+        )
 
-    o = FORMATS[fmt].get(f'fmt_{rtype(r)}', FORMATS[fmt]['fmt']).format(
-        json=json.dumps(r),
-        json_indented=json.dumps(r, indent=2),
-        data=json.dumps(r.get("data")),
-        data_parsed_newlines=('\n  ' if 'data' in r else '') +
-        '\n  '.join(f'{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}' for k, v in r.get('data', {}).items()),
-        data_parsed_oneline=', '.join(
-            f'{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}' for k, v in r.get('data', {}).items()
-        ),
-        args=', '.join(f'{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}' for k, v in r.get('args', {}).items()),
-        type=f'{_(Y)}{r[rtype(r)]}{_(X)}',
-        msg_id=f" {_(DIM)}#{r['japi_request_no']}{_(X)}" if 'japi_request_no' in r else '',
-        values=", ".join(f"{v}" for k, v in r.get("data", {}).items()),
-        c_on=_color_for_msg_type(r),
-        c_off=_(X),
-        c_type=_(YELLOW),
-        prefix=_prefix(r),
+    o = (
+        FORMATS[fmt]
+        .get(f"fmt_{rtype(r)}", FORMATS[fmt]["fmt"])
+        .format(
+            json=json.dumps(r),
+            json_indented=json.dumps(r, indent=2),
+            data=json.dumps(r.get("data")),
+            data_parsed_newlines=("\n  " if "data" in r else "")
+            + "\n  ".join(
+                f"{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}"
+                for k, v in r.get("data", {}).items()
+            ),
+            data_parsed_oneline=", ".join(
+                f"{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}"
+                for k, v in r.get("data", {}).items()
+            ),
+            args=", ".join(
+                f"{_(G)}{k}{_(X)}={_(B)}{json.dumps(v)}{_(X)}"
+                for k, v in r.get("args", {}).items()
+            ),
+            type=f"{_(Y)}{r[rtype(r)]}{_(X)}",
+            msg_id=f" {_(DIM)}#{r['japi_request_no']}{_(X)}"
+            if "japi_request_no" in r
+            else "",
+            values=", ".join(f"{v}" for k, v in r.get("data", {}).items()),
+            c_on=_color_for_msg_type(r),
+            c_off=_(X),
+            c_type=_(YELLOW),
+            prefix=_prefix(r),
+        )
     )
 
     COLORIZE = COLORIZE_ORIGINAL
@@ -198,5 +214,5 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
 
 
 if __name__ == "__main__":
-    r = {'japi_response': 'get_temperature'}
-    jprint(r, fmt='blaa')
+    r = {"japi_response": "get_temperature"}
+    jprint(r, fmt="blaa")

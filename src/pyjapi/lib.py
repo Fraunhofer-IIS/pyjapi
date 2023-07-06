@@ -12,12 +12,12 @@ import strconv
 from .types import JAPIResponse, JAPIRequest
 
 
-class JAPIClient():
+class JAPIClient:
     """Connect and interact with arbitrary libJAPI-based backend."""
 
     def __init__(
         self,
-        address: t.Tuple[str, int] = ('localhost', 1234),
+        address: t.Tuple[str, int] = ("localhost", 1234),
         timeout: int = 3,
         request_no: t.Union[int, bool] = False,
     ):
@@ -69,9 +69,9 @@ class JAPIClient():
         """
         r = []
         if self.sock is not None:
-            r = self.query('japi_pushsrv_list')
+            r = self.query("japi_pushsrv_list")
             if unpack:
-                r = r.get('data', {}).get('services', [])
+                r = r.get("data", {}).get("services", [])
         return r
 
     def query(self, cmd: str, **kwargs) -> dict:
@@ -84,11 +84,11 @@ class JAPIClient():
 
         """
         if self.sock is None:
-            log.error('')
+            log.error("")
             return {}
 
         msg_request = JAPIRequest(self._build_request(cmd, **kwargs))
-        log.debug('> %s', msg_request.dumps())
+        log.debug("> %s", msg_request.dumps())
 
         return self._request(msg_request)
 
@@ -103,7 +103,7 @@ class JAPIClient():
             Push service messages
         """
         if self.sock is None:
-            log.warning('Not connected!')
+            log.warning("Not connected!")
             return {}
         self._subscribe(service)
         log.info(
@@ -118,17 +118,17 @@ class JAPIClient():
     def _subscribe(self, service):
         """Subscribe to JAPI push service."""
         log.info("Subscribing to '%s' push service.", service)
-        return self.query('japi_pushsrv_subscribe', service=service)
+        return self.query("japi_pushsrv_subscribe", service=service)
 
     def _unsubscribe(self, service):
         """Unsubscribe from JAPI push service."""
         log.info("Unsubscribing from '%s' push service.", service)
-        return self.query('japi_pushsrv_unsubscribe', service=service)
+        return self.query("japi_pushsrv_unsubscribe", service=service)
 
     def _build_request(self, cmd, **kwargs):
-        request = {'japi_request': cmd}
+        request = {"japi_request": cmd}
         if self.request_no:
-            request['japi_request_no'] = self.request_no
+            request["japi_request_no"] = self.request_no
 
         if kwargs := {
             k: strconv.convert(convert_numbers(v)) for k, v in kwargs.items()
@@ -139,11 +139,11 @@ class JAPIClient():
         return request
 
     def _request(self, japi_request: JAPIRequest) -> JAPIResponse:
-        json_cmd = json.dumps(japi_request) + '\n'
+        json_cmd = json.dumps(japi_request) + "\n"
         try:
             self.sock.sendall(json_cmd.encode())
             resp = self.sockfile.readline()
-            log.debug('< %s', resp)
+            log.debug("< %s", resp)
         except (socket.gaierror, ConnectionError):
             log.warning("'%s:%d' is not available", self.address[0], self.address[1])
             return {}
@@ -158,7 +158,7 @@ class JAPIClient():
             response = json.loads(resp)
             response = JAPIResponse(response)
         except json.JSONDecodeError as e:
-            log.error('Cannot parse response: %s (%s)', resp, str(e))
+            log.error("Cannot parse response: %s (%s)", resp, str(e))
             return {}
 
         return response
