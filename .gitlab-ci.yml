@@ -25,6 +25,7 @@ coverage:
     - demo_server
   script:
     - pip install hatch
+    - ls ext/libjapi-demo/build
     - hatch run dev:coverage
   coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
   artifacts:

@@ -11,16 +11,19 @@ from pyjapi.lib import convert
 root = pathlib.Path(__file__).parent.parent
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="session")
 def server():
     libjapi_build_dir = root / "ext" / "libjapi-demo" / "build"
     server = libjapi_build_dir / "demo-static"
     port = 1234
-    proc = subprocess.Popen(
-        [server, str(port)],
-        stderr=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-    )
+    try:
+        proc = subprocess.Popen(
+            [server, str(port)],
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+        )
+    except FileNotFoundError:
+        pytest.xfail("example server executable not available!")
     # wait for server to be ready
     sleep(0.1)
 
@@ -29,8 +32,8 @@ def server():
     proc.kill()
 
 
-@pytest.fixture
-def client():
+@pytest.fixture(scope="session")
+def client(server):
     try:
         client = JAPIClient()
     except Exception:
