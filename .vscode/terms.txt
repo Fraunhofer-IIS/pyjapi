@@ -1,0 +1,14 @@
+apidoc
+automodule
+autouse
+docstrings
+doctests
+furo
+maxdepth
+munit
+pkgs
+pylibjapi
+pyqt
+titlesonly
+toctree
+undoc

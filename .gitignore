@@ -46,3 +46,11 @@ docs/source/apidoc
 docs/source/README.md
 docs/source/CHANGELOG.md
 *_bak
+
+# IDE config
+!.vscode/.prettierrc
+!.vscode/cspell.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/terms.txt

@@ -6,10 +6,10 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'pyjapi'
-copyright = '2022, Jannis Mainczyk'
-author = 'Jannis Mainczyk'
-release = '0.6.0'
+project = "pyjapi"
+copyright = "2022, Jannis Mainczyk"
+author = "Jannis Mainczyk"
+release = "0.6.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -20,62 +20,62 @@ release = '0.6.0'
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    'sphinx.ext.intersphinx',
+    "sphinx.ext.intersphinx",
     "sphinx_automodapi.automodapi",
-    'sphinx_automodapi.smart_resolver',
-    'sphinxcontrib.programoutput',  # Dynamically generate script output
-    'sphinx_click.ext',  # Generate documentation for click cli
-    'sphinx.ext.graphviz',
-    'sphinx.ext.inheritance_diagram',
-    'sphinx.ext.coverage',
-    'sphinx.ext.napoleon',
-    'sphinx_autodoc_typehints',
-    'sphinxcontrib.images',  # include images as thumbnails in HTML output
-    'sphinx_git',  # include excerpts from your git history
-    'sphinxcontrib.apidoc',  # build apidoc during sphinx-build
+    "sphinx_automodapi.smart_resolver",
+    "sphinxcontrib.programoutput",  # Dynamically generate script output
+    "sphinx_click.ext",  # Generate documentation for click cli
+    "sphinx.ext.graphviz",
+    "sphinx.ext.inheritance_diagram",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
+    "sphinxcontrib.images",  # include images as thumbnails in HTML output
+    "sphinx_git",  # include excerpts from your git history
+    "sphinxcontrib.apidoc",  # build apidoc during sphinx-build
     # 'sphinx.ext.ifconfig',
     # 'sphinxcontrib.mermaid',
     # 'sphinx_issues',
     # autosummary is required to be explicitly loaded by confluencebuilder
     # (see https://github.com/sphinx-contrib/confluencebuilder/issues/304)
-    'sphinx.ext.autosummary',
-    'sphinxcontrib.confluencebuilder',
+    "sphinx.ext.autosummary",
+    "sphinxcontrib.confluencebuilder",
     # Include Markdown Files (README, CHANGELOG, ...)
-    'myst_parser',
+    "myst_parser",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
-default_role = 'py:obj'
+default_role = "py:obj"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'furo'
+html_theme = "furo"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+html_static_path = ["_static"]
 
-html_logo = '_static/logo.png'
+html_logo = "_static/logo.png"
 
 # -- Options for Confluence Builder ------------------------------------------
 # https://sphinxcontrib-confluencebuilder.readthedocs.io/
-import os # read confluence password from env
+import os  # read confluence password from env
 
 confluence_publish = True
-confluence_server_url = 'https://intern.iis.fhg.de/'
-confluence_server_user = 'mkj'
+confluence_server_url = "https://intern.iis.fhg.de/"
+confluence_server_user = "mkj"
 confluence_server_pass = os.getenv("CONF_PW")
-confluence_parent_page = 'libjapi clients'
-confluence_space_name = 'DOCS'
+confluence_parent_page = "libjapi clients"
+confluence_space_name = "DOCS"
 
 # Generic configuration.
 confluence_page_hierarchy = True
@@ -92,10 +92,10 @@ numpydoc_show_class_members = False  # supposedly required to prevent duplicate 
 # Name of the directory the automodsumm generated documentation ends up in.
 # This directory path should be relative to the documentation root (e.g., same place as index.rst).
 # Defaults to 'api'.
-automodapi_toctreedirnm = 'automodapi'
+automodapi_toctreedirnm = "automodapi"
 
 # Indicate whether to show inheritance diagrams by default.
-# This can be overriden on a case by case basis with :inheritance-diagram: and :no-inheritance-diagram:.
+# This can be overridden on a case by case basis with :inheritance-diagram: and :no-inheritance-diagram:.
 # Defaults to True.
 automodapi_inheritance_diagram = False
 
@@ -116,22 +116,22 @@ automodsumm_inherited_members = False
 
 # -- Options for intersphinx -------------------------------------------------
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3', None),
-    'pytest': ('https://docs.pytest.org/en/latest/', None)
+    "python": ("https://docs.python.org/3", None),
+    "pytest": ("https://docs.pytest.org/en/latest/", None),
 }
 
 # -- Options for sphinxcontrib-images ----------------------------------------
 # https://sphinxcontrib-images.readthedocs.io/en/latest/
 images_config = {
-    'backend': 'LightBox2',  # default: 'LightBox2'
-    'override_image_directive': False,  # default: False
-    'cache_path': '_images',  # default: '_images'
-    'requests_kwargs': {},  # default: {}
-    'default_image_width': '100%',  # default: '100%'
-    'default_image_height': 'auto',  # default: 'auto'
-    'default_group': None,  # default: None
-    'default_show_title': False,  # default: False (broken)
-    'download': True,  # default: True
+    "backend": "LightBox2",  # default: 'LightBox2'
+    "override_image_directive": False,  # default: False
+    "cache_path": "_images",  # default: '_images'
+    "requests_kwargs": {},  # default: {}
+    "default_image_width": "100%",  # default: '100%'
+    "default_image_height": "auto",  # default: 'auto'
+    "default_group": None,  # default: None
+    "default_show_title": False,  # default: False (broken)
+    "download": True,  # default: True
 }
 
 # -- Options for sphinx-git --------------------------------------------------
@@ -174,14 +174,14 @@ autodoc_member_order = "groupwise"
 autodoc_default_options = {
     # 'members': None,
     # 'member-order': 'bysource',
-    'undoc-members': True,
+    "undoc-members": True,
     # 'private-members': True,
     # 'special-members': True,
     # 'inherited-members': True,
-    'show-inheritance': False,
-    'ignore-module-all': True,
-    'imported-members': False,
-    'exclude-members': None,
+    "show-inheritance": False,
+    "ignore-module-all": True,
+    "imported-members": False,
+    "exclude-members": None,
 }
 
 # This value controls the docstrings inheritance.
@@ -199,20 +199,20 @@ autodoc_inherit_docstrings = True
 # Path to a Python package. This path can be:
 # - a path relative to the documentation source directory
 # - an absolute path.
-apidoc_module_dir = '../../src/pyjapi'
+apidoc_module_dir = "../../src/pyjapi"
 
 # The output directory.
 #
 # If it does not exist, it is created.
 # This path is relative to the documentation source directory.
 # default: 'api'
-apidoc_output_dir = 'apidoc'
+apidoc_output_dir = "apidoc"
 
 # An optional list of modules to exclude.
 #
-# These should be paths relative to apidoc_module_dir. fnmatch-style wildcarding is supported.
+# These should be paths relative to apidoc_module_dir. fnmatch-style wildcards are supported.
 # Optional, defaults to [].
-apidoc_excluded_paths = ['tests']
+apidoc_excluded_paths = ["tests"]
 
 # Put documentation for each module on its own page.
 #

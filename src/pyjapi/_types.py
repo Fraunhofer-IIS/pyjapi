@@ -1,11 +1,11 @@
 import json
-import typing as t
 import logging as log
+import typing as t
 
 
 class JAPIMessage(dict):
-    def __init__(self, initdata=None):
-        dict.__init__(self, initdata)
+    def __init__(self, init_data=None):
+        dict.__init__(self, init_data)
 
     @property
     def name(self) -> str:
@@ -22,8 +22,8 @@ class JAPIMessage(dict):
 class JAPIResponse(JAPIMessage):
     """A Japi response message."""
 
-    def __init__(self, initdata=None):
-        super().__init__(initdata)
+    def __init__(self, init_data=None):
+        super().__init__(init_data)
         assert "japi_response" in self
 
     @property
@@ -42,7 +42,7 @@ class JAPIResponse(JAPIMessage):
 class JAPIRequest(JAPIMessage):
     """A JAPI request message."""
 
-    def __init__(self, initdata):
-        JAPIMessage.__init__(self, initdata=initdata)
-        log.debug(f"JAPIRequest({initdata})")
+    def __init__(self, init_data):
+        JAPIMessage.__init__(self, init_data=init_data)
+        log.debug(f"JAPIRequest({init_data})")
         assert "japi_request" in self

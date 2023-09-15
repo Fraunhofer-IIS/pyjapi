@@ -1,4 +1,4 @@
-"""JAPI Client Utilities.
+r"""JAPI Client Utilities.
 
 Provide output methods `jprint` and `jformat` for JAPI requests (*req*) and responses (*resp*).
 
@@ -10,7 +10,7 @@ The following examples will work with the following example request and response
 
 By default, rformat will use `_FORMAT_DEFAULT` and add escape sequences for color highlights:
 
-    >>> jprint(req)
+    >>> jprint(req) # doctest: +SKIP
     > \033[33mget_temperature\033[0m(\033[92munit\033[0m=\033[94m"celsius"\033[0m) \033[2m#123456\033[0m
 
 To disable colorization for individual strings, provide the following argument to `jformat` or `jprint`:
@@ -20,7 +20,7 @@ To disable colorization for individual strings, provide the following argument t
 
 Besides color, there are several output formats to choose from. The default one, ``FORMAT='oneline'``,
 as you have already seen, will parse JAPI messages and replace textual with visual elements, where
-appropiate:
+appropriate:
 
     - requests and responses are distinguished via prefixes ('>' for outgoing requests, '<' for incoming responses)
     - arguments are transformed to look like parameters of a method call, with the japi command as method name.
@@ -39,7 +39,7 @@ If you want to use less horizontal space, use ``FORMAT='multiline'``:
     < get_temperature() #123456
       temperature=17.0
 
-Additionaly output are include *indent*, *data*, *values* and *none*:
+Additionally output are include *indent*, *data*, *values* and *none*:
 
     >>> jprint(resp, fmt='indent', colorize=False)
     {
@@ -53,7 +53,6 @@ Additionaly output are include *indent*, *data*, *values* and *none*:
     {"temperature": 17.0}
     >>> jprint(resp, fmt='values', colorize=False)
     17.0
-
 """
 
 import json
@@ -118,15 +117,13 @@ def rtype(r: dict) -> str:
     Traceback (most recent call last):
     ...
     ValueError: empty japi message does not have a type!
-
     """
-    if r:
-        try:
-            return [k for k in r if k not in ("japi_request_no", "data", "args")][0]
-        except IndexError:
-            raise ValueError("unknown japi response type: %s" % str(r))
-    else:
+    if not r:
         raise ValueError("empty japi message does not have a type!")
+    try:
+        return [k for k in r if k not in ("japi_request_no", "data", "args")][0]
+    except IndexError as e:
+        raise ValueError(f"unknown japi response type: {r}") from e
 
 
 def _prefix(r: dict) -> str:
@@ -134,7 +131,7 @@ def _prefix(r: dict) -> str:
 
 
 def _color_for_msg_type(r: dict):
-    """Return `GREEN` for japi_requests, `YELLOW` otherwise (e.g. japi_responses and push values)."""
+    """Return `GREEN` for japi_requests, `YELLOW` otherwise."""
     return _(GREEN) if rtype(r) == "japi_request" else _(YELLOW)
 
 
@@ -150,27 +147,13 @@ def jprint(r, fmt: str = None, colorize: str = None, *args, **kwargs):
 
 def jformat(r, fmt: str = None, colorize: bool = None) -> str:
     """Format japi message *r* according to :py:data:`~pyjapi.util.FORMAT`."""
-
     if not r:
         return ""
 
-    if fmt is None:
-        global FORMAT
-        if FORMAT in FORMATS:
-            fmt = FORMAT
-        else:
-            log.warning(
-                "FORMAT='%s' is not a supported format! Will revert to default format '%s'.",
-                FORMAT,
-                _FORMAT_DEFAULT,
-            )
-            FORMAT = fmt = _FORMAT_DEFAULT
-    elif fmt not in FORMATS:
-        log.warning("fmt='%s' is not a supported format!", fmt)
-        fmt = FORMAT
+    fmt = _handle_fmt(fmt)
 
     global COLORIZE
-    COLORIZE_ORIGINAL = COLORIZE
+    colorize_original_value = COLORIZE
     if colorize is not None:
         COLORIZE = colorize
         log.debug(
@@ -209,10 +192,28 @@ def jformat(r, fmt: str = None, colorize: bool = None) -> str:
         )
     )
 
-    COLORIZE = COLORIZE_ORIGINAL
+    COLORIZE = colorize_original_value
     return o
+
+
+def _handle_fmt(fmt):
+    if fmt is None:
+        global FORMAT
+        if FORMAT in FORMATS:
+            fmt = FORMAT
+        else:
+            log.warning(
+                "FORMAT='%s' is not a supported format! Will revert to default format '%s'.",
+                FORMAT,
+                _FORMAT_DEFAULT,
+            )
+            FORMAT = fmt = _FORMAT_DEFAULT
+    elif fmt not in FORMATS:
+        log.warning("fmt='%s' is not a supported format!", fmt)
+        fmt = FORMAT
+    return fmt
 
 
 if __name__ == "__main__":
     r = {"japi_response": "get_temperature"}
-    jprint(r, fmt="blaa")
+    jprint(r, fmt="bla")

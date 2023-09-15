@@ -2,9 +2,7 @@
 """Command Line Interface for :py:class:`pyjapi.lib.JAPIClient`.
 
 Tip:
-
     For a documentation of all cli commands and options, see :ref:`cli`
-
 """
 
 import logging as log
@@ -27,8 +25,8 @@ def complete_service(ctx, args, incomplete):
     """Complete push services registered with the backend."""
     # new JAPIClient instance used for autocompletion, as click.ctx doesn't exist yet
     try:
-        J = lib.JAPIClient((HOST, PORT))
-        services = J.list_push_services()
+        client = lib.JAPIClient((HOST, PORT))
+        services = client.list_push_services()
         if incomplete:
             services = [s for s in services if s.startswith(incomplete)]
         return services
@@ -97,7 +95,6 @@ def _callback_format(ctx, param, value):
 @click.pass_context
 def cli(ctx, host, port, verbose):
     """User & Command Line Friendly JAPI Client."""
-
     # If no command is given, print help and exit
     if not ctx.invoked_subcommand:
         click.echo(ctx.get_help())
@@ -137,7 +134,6 @@ def listen(ctx, service, n):
     By default, values are continuously received until either server or client closes the
     connection. Provide a positive integer for N to stop listening after N values have been
     received.
-
     """
     for i, response in enumerate(ctx.obj.listen(service, n)):
         if i == 0 and util.jformat(ctx.obj.last_request):
@@ -199,7 +195,7 @@ completion_shells = ["bash", "zsh", "fish"]
 @cli.command()
 @click.argument("shell", type=click.Choice([*completion_shells, "-", ""]), default="")
 def completions(shell):
-    """Generate shell completions.
+    r"""Generate shell completions.
 
     Activate in current shell:
 

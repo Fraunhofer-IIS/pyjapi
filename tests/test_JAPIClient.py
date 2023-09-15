@@ -1,9 +1,32 @@
 import logging as log
+import pathlib
+import subprocess
+from time import sleep
 
 import pytest
 
 from pyjapi import JAPIClient
 from pyjapi.lib import convert
+
+root = pathlib.Path(__file__).parent.parent
+
+
+@pytest.fixture(scope="session", autouse=True)
+def server():
+    libjapi_build_dir = root / "ext" / "libjapi-demo" / "build"
+    server = libjapi_build_dir / "demo-static"
+    port = 1234
+    proc = subprocess.Popen(
+        [server, str(port)],
+        stderr=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+    )
+    # wait for server to be ready
+    sleep(0.1)
+
+    yield
+
+    proc.kill()
 
 
 @pytest.fixture

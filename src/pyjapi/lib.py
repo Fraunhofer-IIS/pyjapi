@@ -9,7 +9,7 @@ import uuid
 
 import strconv
 
-from .types import JAPIResponse, JAPIRequest
+from ._types import JAPIRequest, JAPIResponse
 
 
 class JAPIClient:
@@ -30,8 +30,6 @@ class JAPIClient:
                 Whether to include japi request number.
                 If a positive integer is given, request number starts at given integer and will increment with each message.
                 If `True` is given, :py:func:`uuid.uuid4` is used to generate a random request number with 6 characters.
-
-
         """
         self._request_no = request_no
         self.last_request = None
@@ -57,7 +55,6 @@ class JAPIClient:
         """List available JAPI push services.
 
         Examples:
-
             >>> JAPIClient().list_push_services()
             ['push_temperature']
 
@@ -65,7 +62,6 @@ class JAPIClient:
             {'japi_response': 'japi_pushsrv_list', 'data': {'services': ['push_temperature']}}
 
         Returns: List of available push services
-
         """
         r = []
         if self.sock is not None:
@@ -81,7 +77,6 @@ class JAPIClient:
 
         Returns:
             Response object
-
         """
         if self.sock is None:
             log.error("")
@@ -178,14 +173,12 @@ def convert_numbers(v):
     """Convert string numbers other than base 10 to base 10.
 
     Examples:
-
         >>> convert_numbers('0b10001')
         '17'
         >>> convert_numbers('0o21')
         '17'
         >>> convert_numbers('0x11')
         '17'
-
     """
     if isinstance(v, str):
         if v.lower().startswith("0x"):
