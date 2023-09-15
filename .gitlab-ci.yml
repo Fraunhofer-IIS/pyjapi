@@ -20,6 +20,8 @@ build_server:
       - demo-static
 
 coverage:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   stage: test
   needs:
     - build_server
