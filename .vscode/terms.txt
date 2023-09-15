@@ -1,6 +1,7 @@
 apidoc
 automodule
 autouse
+bumpversion
 docstrings
 doctests
 furo

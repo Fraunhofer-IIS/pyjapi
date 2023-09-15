@@ -9,7 +9,9 @@
 project = "pyjapi"
 copyright = "2022, Jannis Mainczyk"
 author = "Jannis Mainczyk"
-release = "0.6.0"
+from pyjapi.cli import __version__
+
+release = __version__
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

@@ -7,7 +7,26 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [latest]
 
+## [v0.6.1]
+
+- Add `japi completions` command: completions can now be enabled with the following
+  command
+
+  ```sh
+  eval "`japi completions -`"
+  ```
+
+- Remove completion files
+
 ### 🔩 Under the Hood
+
+- use hatch as package manager
+- use ruff for linting
+- use black for formatting
+- add pre-commit hooks
+- demo server is now started at the beginning of each test session
+- add spell checking and fix typos
+- remove bumpversion config -> use `hatch version` instead
 
 ## [v0.6.0]
 
@@ -114,7 +133,8 @@ the first connection blocked the receiving socket, which caused a timeout in the
   and
   [`interstellar-cli`](https://git01.iis.fhg.de/abt-hfs/interstellar/sw_adc/-/blob/d5abdf3d22a65bee2e01c37e8bc4376278550f00/cli/interstellar-cli)
 
-[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.0...main
+[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.1...main
+[v0.6.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.2...v0.6.0
 [v0.5.2]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.1...v0.5.2
 [v0.5.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.0...v0.5.1
