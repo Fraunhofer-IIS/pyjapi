@@ -66,6 +66,7 @@ spellcheck-dump = """
 """
 lint = "ruff --config=pyproject.toml src tests"
 test = "pytest"
+coverage = "pytest --cov=src/pyjapi --cov-config=pyproject.toml --cov-branch --cov-report term --cov-report html:build/coverage --junitxml=report.xml"
 libjapi-demo = "ext/libjapi-demo/build/demo-static 1234"
 
 [tool.ruff]
