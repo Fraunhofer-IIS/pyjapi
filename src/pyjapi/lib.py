@@ -55,10 +55,10 @@ class JAPIClient:
         """List available JAPI push services.
 
         Examples:
-            >>> JAPIClient().list_push_services()
+            >>> japi_client.list_push_services()
             ['push_temperature']
 
-            >>> JAPIClient().list_push_services(unpack=False)
+            >>> japi_client.list_push_services(unpack=False)
             {'japi_response': 'japi_pushsrv_list', 'data': {'services': ['push_temperature']}}
 
         Returns: List of available push services
