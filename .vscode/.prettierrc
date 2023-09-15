@@ -2,5 +2,12 @@
   "tabWidth": 2,
   "useTabs": false,
   "printWidth": 88,
-  "proseWrap": "always"
+  "overrides": [
+    {
+      "files": "*.md",
+      "options": {
+        "proseWrap": "always"
+      }
+    }
+  ]
 }
