@@ -144,5 +144,4 @@ the first connection blocked the receiving socket, which caused a timeout in the
 [v0.3.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.2.0...v0.3.0
 [v0.2.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.1.0...v0.2.0
 [v0.1.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.0.0...v0.1.0
-[v0.0.0]:
-  https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/commit/9f53a926f5de23d8d1710c8bb896c5f3eb12bcfb
+[v0.0.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/commit/9f53a926
