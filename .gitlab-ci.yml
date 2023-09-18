@@ -6,30 +6,15 @@ stages:
   - build
   - publish
 
-build_server:
-  image: git01.iis.fhg.de:5005/ks-ip-lib/software/libjapi-demo:latest
-  variables:
-    GIT_SUBMODULE_STRATEGY: recursive
-  stage: demo
-  script:
-    - cd ext/libjapi-demo && mkdir build && cd build && cmake3 ../ && make && mv demo-static ../../../demo-static
-  artifacts:
-    when: always
-    expire_in: 1 week
-    paths:
-      - demo-static
-
 coverage:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   stage: test
-  needs:
-    - build_server
   script:
     - pip install hatch
-    - mkdir -p ext/libjapi-demo/build
-    - mv demo-static ext/libjapi-demo/build/demo-static
-    - ls ext/libjapi-demo/build
+    # - mkdir -p ext/libjapi-demo/build
+    # - mv demo-static ext/libjapi-demo/build/demo-static
+    # - ls ext/libjapi-demo/build
     - hatch run dev:coverage
   coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
   artifacts:
