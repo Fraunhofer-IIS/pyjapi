@@ -162,16 +162,16 @@ the first connection blocked the receiving socket, which caused a timeout in the
   and
   [`interstellar-cli`](https://git01.iis.fhg.de/abt-hfs/interstellar/sw_adc/-/blob/d5abdf3d22a65bee2e01c37e8bc4376278550f00/cli/interstellar-cli)
 
-[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.7.0...main
-[v0.7.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.1...v0.7.0
-[v0.6.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.0...v0.6.1
-[v0.6.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.2...v0.6.0
-[v0.5.2]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.1...v0.5.2
-[v0.5.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.0...v0.5.1
-[v0.5.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.4.0...v0.5.0
-[v0.4.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.3.1...v0.4.0
-[v0.3.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.3.0...v0.3.1
-[v0.3.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.2.0...v0.3.0
-[v0.2.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.1.0...v0.2.0
-[v0.1.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.0.0...v0.1.0
-[v0.0.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/commit/9f53a926
+[latest]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.7.0...main
+[v0.7.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.6.1...v0.7.0
+[v0.6.1]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.6.0...v0.6.1
+[v0.6.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.5.2...v0.6.0
+[v0.5.2]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.5.1...v0.5.2
+[v0.5.1]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.5.0...v0.5.1
+[v0.5.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.4.0...v0.5.0
+[v0.4.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.3.1...v0.4.0
+[v0.3.1]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.3.0...v0.3.1
+[v0.3.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.2.0...v0.3.0
+[v0.2.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.1.0...v0.2.0
+[v0.1.0]: https://github.com/Fraunhofer-IIS/pyjapi/compare/v0.0.0...v0.1.0
+[v0.0.0]: https://github.com/Fraunhofer-IIS/pyjapi/commit/9f53a926

@@ -13,7 +13,7 @@ pip install pyjapi
 Alternatively, you might want to clone the project and go from there:
 
 ```sh
-git clone git@git01.iis.fhg.de:ks-ip-lib/software/pyjapi.git
+git clone git@github.com:Fraunhofer-IIS/pyjapi.git
 pip install -e pyjapi/.
 ```
 
