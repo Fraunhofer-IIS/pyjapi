@@ -1,4 +1,5 @@
 import logging as log
+import socket
 
 import pytest
 
@@ -21,8 +22,8 @@ def test_pushsrv_commands(client, cmd):
 
 
 def test_client_no_server_at_address():
-    with pytest.raises(ConnectionError):
-        JAPIClient(("localhost", 8989), timeout=0.1)
+    with pytest.raises((ConnectionError, socket.gaierror)):
+        JAPIClient(("someServer", 8989), timeout=0.1)
 
 
 @pytest.mark.parametrize(
