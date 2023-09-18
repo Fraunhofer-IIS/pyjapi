@@ -12,9 +12,6 @@ coverage:
   stage: test
   script:
     - pip install hatch
-    # - mkdir -p ext/libjapi-demo/build
-    # - mv demo-static ext/libjapi-demo/build/demo-static
-    # - ls ext/libjapi-demo/build
     - hatch run dev:coverage
   coverage: "/TOTAL.+ ([0-9]{1,3}%)/"
   artifacts:

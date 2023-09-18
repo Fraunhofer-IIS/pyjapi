@@ -2,7 +2,7 @@ import logging as log
 
 import pytest
 
-from pyjapi.lib import convert
+from pyjapi.lib import JAPIClient, convert
 
 
 @pytest.mark.parametrize(
@@ -18,6 +18,11 @@ def test_pushsrv_commands(client, cmd):
     log.info(r)
     assert isinstance(r, dict)
     assert r["japi_response"] == cmd
+
+
+def test_client_no_server_at_address():
+    with pytest.raises(ConnectionError):
+        JAPIClient(("localhost", 8989), timeout=0.1)
 
 
 @pytest.mark.parametrize(

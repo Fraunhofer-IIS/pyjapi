@@ -39,7 +39,6 @@ class JAPIClient:
             self.sock.settimeout(timeout)
             self.sockfile = self.sock.makefile()
         except Exception as e:
-            self.sock = self.sockfile = None
             raise (e)
 
     @property
@@ -63,11 +62,9 @@ class JAPIClient:
 
         Returns: List of available push services
         """
-        r = []
-        if self.sock is not None:
-            r = self.query("japi_pushsrv_list")
-            if unpack:
-                r = r.get("data", {}).get("services", [])
+        r = self.query("japi_pushsrv_list")
+        if unpack:
+            r = r.get("data", {}).get("services", [])
         return r
 
     def query(self, cmd: str, **kwargs) -> dict:
@@ -78,10 +75,6 @@ class JAPIClient:
         Returns:
             Response object
         """
-        if self.sock is None:
-            log.error("")
-            return {}
-
         msg_request = JAPIRequest(self._build_request(cmd, **kwargs))
         log.debug("> %s", msg_request.dumps())
 
@@ -97,9 +90,6 @@ class JAPIClient:
         Returns:
             Push service messages
         """
-        if self.sock is None:
-            log.warning("Not connected!")
-            return {}
         self._subscribe(service)
         log.info(
             f"Listening for {f'{n_messages} ' if n_messages > 0 else ''}'{service}' package{'s' if n_messages != 1 else ''}..."
