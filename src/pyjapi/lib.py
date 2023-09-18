@@ -148,7 +148,7 @@ class JAPIClient:
 
     def __del__(self):
         """Close socket upon deletion."""
-        if self.sock:
+        if hasattr(self, "sock"):
             if self.sockfile:
                 self.sockfile.close()
             self.sock.close()

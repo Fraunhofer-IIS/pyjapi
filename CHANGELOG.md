@@ -7,6 +7,9 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [latest]
 
+- fixed issue where an error would be raised in `JAPIClient.__del__` if connection to
+  server was never established.
+
 ## [v0.6.1]
 
 - Add `japi completions` command: completions can now be enabled with the following
