@@ -74,6 +74,7 @@ package:
   only:
     - main
     - staging
+    - tags
   artifacts:
     paths:
       - dist
