@@ -7,8 +7,23 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [latest]
 
+## [v0.7.0]
+
 - fixed issue where an error would be raised in `JAPIClient.__del__` if connection to
   server was never established.
+
+### 🔩 Under the Hood
+
+- generate api documentation using `autoapi` (and remove outdated section on
+  `automodapi` and `apidoc`)
+- include all `pyjapi._types` in top-level namespace
+
+  so `from pyjapi._types import JAPIResponse` becomes `from pyjapi import JAPIResponse`
+
+- remove including `pyjapi.cli.cli` as `pyjapi.cli`, in effect shadowing the `cli`
+  module in favor of the `cli` method
+
+  so `from pyjapi import cli` becomes `from pyjapi.cli import cli`
 
 ## [v0.6.1]
 
@@ -136,7 +151,8 @@ the first connection blocked the receiving socket, which caused a timeout in the
   and
   [`interstellar-cli`](https://git01.iis.fhg.de/abt-hfs/interstellar/sw_adc/-/blob/d5abdf3d22a65bee2e01c37e8bc4376278550f00/cli/interstellar-cli)
 
-[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.1...main
+[latest]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.7.0...main
+[v0.7.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.1...v0.7.0
 [v0.6.1]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.6.0...v0.6.1
 [v0.6.0]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.2...v0.6.0
 [v0.5.2]: https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi/-/compare/v0.5.1...v0.5.2

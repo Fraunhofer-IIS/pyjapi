@@ -27,11 +27,10 @@ dependencies = [
     'myst_parser',
     'furo',
     'sphinx-click',
-    'sphinx-automodapi',
+    'sphinx-autoapi',
     'sphinx-autodoc-typehints',
     'sphinxcontrib-programoutput',
     'sphinxcontrib-images',
-    'sphinxcontrib.apidoc',            # build apidocs during sphinx-build
     'sphinx-git',
     'jsonschema',                      # required by jsonschemaext.py
 ]

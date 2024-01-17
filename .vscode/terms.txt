@@ -1,4 +1,6 @@
 apidoc
+autoapi
+automodapi
 automodule
 autouse
 bumpversion

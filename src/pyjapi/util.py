@@ -8,7 +8,7 @@ The following examples will work with the following example request and response
     >>> resp = {'japi_response': 'get_temperature', 'japi_request_no': 123456, 'data': {'temperature': 17.0}}
     >>> resp_incl_args = {'japi_response': 'get_temperature', 'data': {'temperature': 17.0}, 'args': {'unit': 'celsius'}, 'japi_request_no': 123456}
 
-By default, rformat will use `_FORMAT_DEFAULT` and add escape sequences for color highlights:
+By default, rformat will use `FORMAT` and add escape sequences for color highlights:
 
     >>> jprint(req) # doctest: +SKIP
     > \033[33mget_temperature\033[0m(\033[92munit\033[0m=\033[94m"celsius"\033[0m) \033[2m#123456\033[0m

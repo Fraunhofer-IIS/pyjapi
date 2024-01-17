@@ -23,8 +23,6 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    "sphinx_automodapi.automodapi",
-    "sphinx_automodapi.smart_resolver",
     "sphinxcontrib.programoutput",  # Dynamically generate script output
     "sphinx_click.ext",  # Generate documentation for click cli
     "sphinx.ext.graphviz",
@@ -34,7 +32,6 @@ extensions = [
     "sphinx_autodoc_typehints",
     "sphinxcontrib.images",  # include images as thumbnails in HTML output
     "sphinx_git",  # include excerpts from your git history
-    "sphinxcontrib.apidoc",  # build apidoc during sphinx-build
     # 'sphinx.ext.ifconfig',
     # 'sphinxcontrib.mermaid',
     # 'sphinx_issues',
@@ -104,36 +101,6 @@ confluence_page_hierarchy = True
 confluence_disable_notifications = True
 # confluence_purge = True
 
-# -- Options for sphinx-automodapi -----------------------------------------------
-# Doesn't seem to work with singlehtml builder
-
-numpydoc_show_class_members = False  # supposedly required to prevent duplicate entries
-
-# Name of the directory the automodsumm generated documentation ends up in.
-# This directory path should be relative to the documentation root (e.g., same place as index.rst).
-# Defaults to 'api'.
-automodapi_toctreedirnm = "automodapi"
-
-# Indicate whether to show inheritance diagrams by default.
-# This can be overridden on a case by case basis with :inheritance-diagram: and :no-inheritance-diagram:.
-# Defaults to True.
-automodapi_inheritance_diagram = False
-
-automodapi_writereprocessed = False
-"""bool: Replace automodapi sections with Sphinx output for debugging purposes. [default: False]
-
-Will cause automodapi to write files with any automodapi sections replaced with the content
-Sphinx processes after automodapi has run.
-The output files are not actually used by sphinx, so this option is only for figuring
-out the cause of sphinx warnings or other debugging.
-"""
-
-automodsumm_writereprocessed = False
-"""bool: replace automodsumm sections with Sphinx output for debugging purposes. [default: False]"""
-
-automodsumm_inherited_members = False
-"""bool: Include members of base classes in documentation. [default: False]"""
-
 # -- Options for intersphinx -------------------------------------------------
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
@@ -195,7 +162,7 @@ autodoc_default_options = {
     # 'members': None,
     # 'member-order': 'bysource',
     "undoc-members": True,
-    # 'private-members': True,
+    "private-members": True,
     # 'special-members': True,
     # 'inherited-members': True,
     "show-inheritance": False,
@@ -211,48 +178,18 @@ autodoc_default_options = {
 #
 autodoc_inherit_docstrings = True
 
-# -- Options for sphinxcontrib-apidoc ----------------------------------------
-# https://pypi.org/project/sphinxcontrib-apidoc/
+# -- Options for sphinx-autoapi ----------------------------------------
 
-# The path to the module to document.
-#
-# Path to a Python package. This path can be:
-# - a path relative to the documentation source directory
-# - an absolute path.
-apidoc_module_dir = "../../src/pyjapi"
+extensions += ["autoapi.extension"]
 
-# The output directory.
-#
-# If it does not exist, it is created.
-# This path is relative to the documentation source directory.
-# default: 'api'
-apidoc_output_dir = "apidoc"
-
-# An optional list of modules to exclude.
-#
-# These should be paths relative to apidoc_module_dir. fnmatch-style wildcards are supported.
-# Optional, defaults to [].
-apidoc_excluded_paths = ["tests"]
-
-# Put documentation for each module on its own page.
-#
-# Otherwise there will be one page per (sub)package.
-# Optional, defaults to False.
-apidoc_separate_modules = True
-
-# Filename for a table of contents file.
-#
-# Defaults to modules.
-# If set to False, apidoc will not create a table of contents file.
-apidoc_toc_file = False
-
-# When set to True, put module documentation before submodule documentation.
-
-# Optional, defaults to False.
-apidoc_module_first = True
-
-# Extra arguments which will be passed to sphinx-apidoc.
-#
-# These are placed after flags and before the module name.
-# Optional, defaults to [].
-# apidoc_extra_args = []
+autoapi_dirs = ["../../src/pyjapi"]
+autoapi_options = [
+    "members",
+    "undoc-members",
+    # "private-members",
+    "show-inheritance",
+    "show-module-summary",
+    # "special-members",
+    "imported-members",
+]
+autoapi_add_toctree_entry = False
