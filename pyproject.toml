@@ -7,7 +7,7 @@ urls = { repository = "https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi" }
 name = "pyjapi"
 description = "JAPI client"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 keywords = ["japi", "libjapi", "python", "click"]
 dependencies = ['click>=8.0', 'strconv', 'python-dateutil']
 dynamic = ["version"]

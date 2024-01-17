@@ -19,6 +19,7 @@ Additionally
 
 - fixed issue where an error would be raised in `JAPIClient.__del__` if connection to
   server was never established.
+- drop support for Python 3.6 and 3.7 (was broken since assignment operator was used)
 
 ### 🔩 Under the Hood
 
