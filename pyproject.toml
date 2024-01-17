@@ -30,7 +30,6 @@ dependencies = [
     'sphinx-autoapi',
     'sphinx-autodoc-typehints',
     'sphinxcontrib-programoutput',
-    'sphinxcontrib-images',
     'sphinx-git',
     'jsonschema',                      # required by jsonschemaext.py
 ]

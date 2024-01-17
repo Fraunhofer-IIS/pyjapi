@@ -12,6 +12,7 @@ munit
 pkgs
 pylibjapi
 pyqt
+sphinxcontrib
 titlesonly
 toctree
 undoc

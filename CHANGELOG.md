@@ -9,6 +9,14 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ## [v0.7.0]
 
+Internal refactoring has changed some import paths:
+
+- `from pyjapi.cli import cli` (previously accessible as `from pyjapi import cli`)
+- `from pyjapi import JAPIResponse` (previously accessible as
+  `from pyjapi._types import JAPIResponse`)
+
+Additionally
+
 - fixed issue where an error would be raised in `JAPIClient.__del__` if connection to
   server was never established.
 
@@ -24,6 +32,8 @@ this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   module in favor of the `cli` method
 
   so `from pyjapi import cli` becomes `from pyjapi.cli import cli`
+
+- drop unused `sphinxcontrib-images` dependency
 
 ## [v0.6.1]
 

@@ -30,7 +30,6 @@ extensions = [
     "sphinx.ext.coverage",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
-    "sphinxcontrib.images",  # include images as thumbnails in HTML output
     "sphinx_git",  # include excerpts from your git history
     # 'sphinx.ext.ifconfig',
     # 'sphinxcontrib.mermaid',
@@ -105,20 +104,6 @@ confluence_disable_notifications = True
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "pytest": ("https://docs.pytest.org/en/latest/", None),
-}
-
-# -- Options for sphinxcontrib-images ----------------------------------------
-# https://sphinxcontrib-images.readthedocs.io/en/latest/
-images_config = {
-    "backend": "LightBox2",  # default: 'LightBox2'
-    "override_image_directive": False,  # default: False
-    "cache_path": "_images",  # default: '_images'
-    "requests_kwargs": {},  # default: {}
-    "default_image_width": "100%",  # default: '100%'
-    "default_image_height": "auto",  # default: 'auto'
-    "default_group": None,  # default: None
-    "default_show_title": False,  # default: False (broken)
-    "download": True,  # default: True
 }
 
 # -- Options for sphinx-git --------------------------------------------------
