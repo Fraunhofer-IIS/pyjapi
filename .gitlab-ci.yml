@@ -1,10 +1,20 @@
-image: python:latest
+default:
+  image: python:latest
 
 stages:
   - demo
   - test
   - build
   - publish
+
+python3.8:
+  image: python:3.8
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
+  stage: test
+  script:
+    - pip install hatch
+    - hatch run dev:test
 
 coverage:
   variables:
