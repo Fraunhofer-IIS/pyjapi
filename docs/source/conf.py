@@ -68,6 +68,24 @@ html_static_path = ["_static"]
 
 html_logo = "_static/logo.png"
 
+# include FontAwesome icons
+html_css_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/fontawesome.min.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/solid.min.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/brands.min.css",
+]
+
+html_theme_options = {
+    "footer_icons": [
+        {
+            "name": "GitLab",
+            "url": "https://git01.iis.fhg.de/ks-ip-lib/software/pyjapi",
+            "html": "",
+            "class": "fa-brands fa-solid fa-gitlab fa-xl",
+        },
+    ],
+}
+
 # -- Options for Confluence Builder ------------------------------------------
 # https://sphinxcontrib-confluencebuilder.readthedocs.io/
 import os  # read confluence password from env
@@ -76,7 +94,7 @@ confluence_publish = True
 confluence_server_url = "https://intern.iis.fhg.de/"
 confluence_server_user = "mkj"
 confluence_server_pass = os.getenv("CONF_PW")
-confluence_parent_page = "libjapi clients"
+confluence_parent_page = "libjapi Knowledge Base"
 confluence_space_name = "DOCS"
 
 # Generic configuration.
